@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+
+    <EditText
+        android:id="@+id/characterName"
+        android:hint="Enter character name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:imeOptions="actionDone"/>
+
+    <Spinner
+        android:id="@+id/spinnerClass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/characterName">
+    </Spinner>
+
+    <Spinner
+        android:id="@+id/spinnerRace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/spinnerClass">
+    </Spinner>
+
+    <Spinner
+        android:id="@+id/spinnerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/spinnerRace">
+    </Spinner>
+
+    //Statistics
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="*"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/spinnerBackground">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/textStrength"
+                android:gravity="center"
+                android:text="Strength"/>
+
+            <TextView
+                android:id="@+id/textDexterity"
+                android:gravity="center"
+                android:text="Dexterity"/>
+
+            <TextView
+                android:id="@+id/textConstitution"
+                android:gravity="center"
+                android:text="Constitution"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/inputStrength"
+                android:inputType="number"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"/>
+
+            <EditText
+                android:id="@+id/inputDexterity"
+                android:inputType="number"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"/>
+
+            <EditText
+                android:id="@+id/inputConstitution"
+                android:inputType="number"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/textIntelligence"
+                android:gravity="center"
+                android:text="Intelligence" />
+
+            <TextView
+                android:id="@+id/textWisdom"
+                android:gravity="center"
+                android:text="Wisdom" />
+
+            <TextView
+                android:id="@+id/textCharisma"
+                android:gravity="center"
+                android:text="Charisma"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/inputIntelligence"
+                android:inputType="number"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"/>
+
+            <EditText
+                android:id="@+id/inputWisdom"
+                android:inputType="number"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"/>
+
+            <EditText
+                android:id="@+id/inputCharisma"
+                android:inputType="number"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"/>
+        </TableRow>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Next" />
+    </TableLayout>
+</RelativeLayout>

@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">Character Sheet Manager</string>
+
+    //
+    <string name="characterList"></string>
+    <string name="addCharacterButton">Add Character</string>
+
+    //Character name and level strings
+    <string name="characterName"></string>
+    <string name="level"></string>
+
+    //Spinner strings
+    <string name="spinnerRace"></string>
+    <string name="spinnerClass"></string>
+    <string name="spinnerBackground"></string>
+
+    //Display Statistics strings
+    <string name="textStrength"></string>
+    <string name="textDexterity"></string>
+    <string name="textConstitution"></string>
+    <string name="textIntelligence"></string>
+    <string name="textWisdom"></string>
+    <string name="textCharisma"></string>
+
+    //Input Statistics strings
+    <string name="inputStrength"></string>
+    <string name="inputDexterity"></string>
+    <string name="inputConstitution"></string>
+    <string name="inputIntelligence"></string>
+    <string name="inputWisdom"></string>
+    <string name="inputCharisma"></string>
+
+    //Layout string
+    <string name="tableLayout"></string>
+
+    <string-array name="possibleRaces">
+        <item>Dragonborn</item>
+        <item>Dwarf</item>
+        <item>Elf</item>
+        <item>Gnome</item>
+        <item>Half Elf</item>
+        <item>Half Orc</item>
+        <item>Halfling</item>
+        <item>Human</item>
+        <item>Teifling</item>
+    </string-array>
+
+    <string-array name="possibleClasses">
+        <item>Barbarian</item>
+        <item>Bard</item>
+        <item>Cleric</item>
+        <item>Druid</item>
+        <item>Fighter</item>
+        <item>Monk</item>
+        <item>Paladin</item>
+        <item>Rogue</item>
+        <item>Sorcerer</item>
+        <item>Warlock</item>
+        <item>Wizard</item>
+    </string-array>
+
+    <string-array name="possibleBackgrounds">
+        <item>Acolyte</item>
+        <item>Charlatan</item>
+        <item>Criminal</item>
+        <item>Entertainer</item>
+        <item>Guild Artisan</item>
+        <item>Hermit</item>
+        <item>Noble</item>
+        <item>Outlander</item>
+        <item>Sage</item>
+        <item>Sailor</item>
+        <item>Soldier</item>
+        <item>Urchin</item>
+    </string-array>
+</resources>
