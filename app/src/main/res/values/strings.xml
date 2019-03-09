@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Character Sheet Manager</string>
 
-    //
+    //CharacterList Activity strings
     <string name="characterList"></string>
     <string name="addCharacterButton">Add Character</string>
 
@@ -32,6 +32,8 @@
 
     //Layout string
     <string name="tableLayout"></string>
+    <string name="testRace"></string>
+    <string name="testBackground"></string>
 
     <string-array name="possibleRaces">
         <item>Dragonborn</item>
@@ -42,7 +44,7 @@
         <item>Half Orc</item>
         <item>Halfling</item>
         <item>Human</item>
-        <item>Teifling</item>
+        <item>Tiefling</item>
     </string-array>
 
     <string-array name="possibleClasses">

@@ -9,11 +9,24 @@
     <EditText
         android:id="@+id/characterName"
         android:hint="Enter character name"
-        android:layout_width="match_parent"
+        android:layout_width="125pt"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:inputType="text"
         android:maxLines="1"
+        android:imeOptions="actionDone"/>
+
+    <EditText
+        android:id="@+id/level"
+        android:hint="Level"
+        android:textAlignment="center"
+        android:layout_width="35pt"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:maxLines="1"
+        android:layout_toRightOf="@+id/characterName"
         android:imeOptions="actionDone"/>
 
     <Spinner
@@ -129,5 +142,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Next" />
+
     </TableLayout>
 </RelativeLayout>

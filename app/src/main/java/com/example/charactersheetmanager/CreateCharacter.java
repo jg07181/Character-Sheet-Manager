@@ -13,10 +13,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateCharacter extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText characterName;
+    private EditText characterName, level;
     private EditText inputStrength, inputDexterity, inputConstitution, inputIntelligence, inputWisdom, inputCharisma;
+    private int[] abilities = new int[5];
+    private int[] abilityMods = new int[5];
     private Button nextButton;
 
     @Override
@@ -25,13 +30,13 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_create_character);
 
         //Spinners
-        Spinner chooseRace = findViewById(R.id.spinnerRace);
+        final Spinner chooseRace = findViewById(R.id.spinnerRace);
         Spinner chooseClass = findViewById(R.id.spinnerClass);
-        Spinner chooseBackground = findViewById(R.id.spinnerBackground);
+        final Spinner chooseBackground = findViewById(R.id.spinnerBackground);
 
         ArrayAdapter<CharSequence> adapterRace = ArrayAdapter.createFromResource(this, R.array.possibleRaces, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapterClass = ArrayAdapter.createFromResource(this, R.array.possibleClasses, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapterBackground = ArrayAdapter.createFromResource(this, R.array.possibleBackgrounds, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapterBackground = ArrayAdapter.createFromResource(this, R.array.possibleBackgrounds, android.R.layout.simple_spinner_item);
 
         adapterRace.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -50,7 +55,15 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(CreateCharacter.this);
+                databaseAccess.open();
+                List<String> backgroundInfo = databaseAccess.getSelectedBackground(chooseBackground.getSelectedItem().toString());
+                List<String> raceInfo = databaseAccess.getSelectedRace(chooseRace.getSelectedItem().toString());
+
                 Intent i = new Intent(CreateCharacter.this, ExpandCharacter.class);
+                i.putStringArrayListExtra("backgroundInfo", (ArrayList<String>) backgroundInfo);
+                i.putStringArrayListExtra("raceInfo", (ArrayList<String>) raceInfo);
                 startActivity(i);
             }
         });
@@ -62,7 +75,18 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Save name here
                 String characterName = v.getText().toString();
-                return false;
+                return true;
+            }
+        });
+
+        //Enter character level via EditText
+        level = findViewById(R.id.level);
+        level.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //Save level here
+                int level = Integer.parseInt(v.getText().toString());
+                return true;
             }
         });
 
@@ -72,11 +96,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Check bounds
-                int Strength = checkAbilityBounds(v);
+                abilities[0] = checkAbilityBounds(v);
 
                 //Check modifier
-                int modStrength = getModifier(Strength);
-                return false;
+                abilityMods[0] = getModifier(abilities[0]);
+                return true;
             }
         });
 
@@ -85,11 +109,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Check bounds
-                int Dexterity = checkAbilityBounds(v);
+                abilities[1] = checkAbilityBounds(v);
 
                 //Check modifier
-                int modDexterity = getModifier(Dexterity);
-                return false;
+                abilityMods[1] = getModifier(abilities[1]);
+                return true;
             }
         });
 
@@ -98,11 +122,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Check bounds
-                int Constitution = checkAbilityBounds(v);
+                abilities[2] = checkAbilityBounds(v);
 
                 //Check modifier
-                int modConstitution = getModifier(Constitution);
-                return false;
+                abilityMods[2] = getModifier(abilities[2]);
+                return true;
             }
         });
 
@@ -111,11 +135,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Check bounds
-                int Intelligence = checkAbilityBounds(v);
+                abilities[3] = checkAbilityBounds(v);
 
                 //Check modifier
-                int modIntelligence = getModifier(Intelligence);
-                return false;
+                abilityMods[3] = getModifier(abilities[3]);
+                return true;
             }
         });
 
@@ -124,11 +148,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Check bounds
-                int Wisdom = checkAbilityBounds(v);
+                abilities[4] = checkAbilityBounds(v);
 
                 //Check modifier
-                int modWisdom = getModifier(Wisdom);
-                return false;
+                abilityMods[4] = getModifier(abilities[4]);
+                return true;
             }
         });
 
@@ -137,11 +161,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //Check bounds
-                int Charisma = checkAbilityBounds(v);
+                abilities[5] = checkAbilityBounds(v);
 
                 //Check modifier
-                int modCharisma = getModifier(Charisma);
-                return false;
+                abilityMods[5] = getModifier(abilities[5]);
+                return true;
             }
         });
     }
@@ -161,7 +185,6 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         else {
             return statInt;
         }
-
     }
 
     //Gets the modifier of an ability
@@ -173,12 +196,10 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String choice = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), choice, Toast.LENGTH_SHORT).show();
+        //String choice = parent.getItemAtPosition(position).toString();
+        //Toast.makeText(parent.getContext(), choice, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

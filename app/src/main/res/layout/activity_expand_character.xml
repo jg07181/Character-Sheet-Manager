@@ -4,102 +4,96 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:stretchColumns="1">
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Acrobatics"/>
+        <TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Animal Handling"/>
+            <CheckBox
+                android:text="Acrobatics" />
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Arcana"/>
+            <CheckBox
+                android:text="Animal Handling" />
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Athletics"/>
+        <TableRow>
+            <CheckBox
+                android:text="Arcana"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Deception"/>
+            <CheckBox
+                android:text="Athletics"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="History"/>
+        <TableRow>
+            <CheckBox
+                android:text="Deception"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Insight"/>
+            <CheckBox
+                android:text="History"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Intimidation"/>
+        <TableRow>
+            <CheckBox
+                android:text="Insight"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Investigation"/>
+            <CheckBox
+                android:text="Intimidation"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Medicine"/>
+        <TableRow>
+            <CheckBox
+                android:text="Investigation"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Nature"/>
+            <CheckBox
+                android:text="Medicine"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Perception"/>
+        <TableRow>
+            <CheckBox
+                android:text="Nature"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Performance"/>
+            <CheckBox
+                android:text="Perception"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Persuasion"/>
+        <TableRow>
+            <CheckBox
+                android:text="Performance"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Religion"/>
+            <CheckBox
+                android:text="Persuasion"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Sleight of Hand"/>
+        <TableRow>
+            <CheckBox
+                android:text="Religion"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Stealth"/>
+            <CheckBox
+                android:text="Sleight of Hand"/>
+        </TableRow>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Survival"/>
-    </LinearLayout>
+        <TableRow>
+            <CheckBox
+                android:text="Stealth"/>
+
+            <CheckBox
+                android:text="Survival"/>
+
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/testBackground"
+                android:text="Test Text"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/testRace"
+                android:text="Test Text"/>
+        </TableRow>
+    </TableLayout>
 </ScrollView>
