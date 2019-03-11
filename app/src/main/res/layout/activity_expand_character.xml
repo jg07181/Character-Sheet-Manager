@@ -6,81 +6,98 @@
 
     <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:stretchColumns="1">
+        android:stretchColumns="*">
 
         <TableRow>
+            <CheckBox
+                android:id="@+id/checkbox_Acrobatics"
+                android:text="@string/checkbox_Acrobatics" />
 
             <CheckBox
-                android:text="Acrobatics" />
-
-            <CheckBox
-                android:text="Animal Handling" />
+                android:id="@+id/checkbox_Animal_Handling"
+                android:text="@string/checkbox_Animal_Handling" />
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Arcana"/>
+                android:id="@+id/checkbox_Arcana"
+                android:text="@string/checkbox_Arcana"/>
 
             <CheckBox
-                android:text="Athletics"/>
+                android:id="@+id/checkbox_Athletics"
+                android:text="@string/checkbox_Athletics"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Deception"/>
+                android:id="@+id/checkbox_Deception"
+                android:text="@string/checkbox_Deception"/>
 
             <CheckBox
-                android:text="History"/>
+                android:id="@+id/checkbox_History"
+                android:text="@string/checkbox_History"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Insight"/>
+                android:id="@+id/checkbox_Insight"
+                android:text="@string/checkbox_Insight"/>
 
             <CheckBox
-                android:text="Intimidation"/>
+                android:id="@+id/checkbox_Intimidation"
+                android:text="@string/checkbox_Intimidation"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Investigation"/>
+                android:id="@+id/checkbox_Investigation"
+                android:text="@string/checkbox_Investigation"/>
 
             <CheckBox
-                android:text="Medicine"/>
+                android:id="@+id/checkbox_Medicine"
+                android:text="@string/checkbox_Medicine"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Nature"/>
+                android:id="@+id/checkbox_Nature"
+                android:text="@string/checkbox_Nature"/>
 
             <CheckBox
-                android:text="Perception"/>
+                android:id="@+id/checkbox_Perception"
+                android:text="@string/checkbox_Perception"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Performance"/>
+                android:id="@+id/checkbox_Performance"
+                android:text="@string/checkbox_Performance"/>
 
             <CheckBox
-                android:text="Persuasion"/>
+                android:id="@+id/checkbox_Persuasion"
+                android:text="@string/checkbox_Persuasion"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Religion"/>
+                android:id="@+id/checkbox_Religion"
+                android:text="@string/checkbox_Religion"/>
 
             <CheckBox
-                android:text="Sleight of Hand"/>
+                android:id="@+id/checkbox_Sleight_of_hand"
+                android:text="@string/checkbox_Sleight_of_hand"/>
         </TableRow>
 
         <TableRow>
             <CheckBox
-                android:text="Stealth"/>
+                android:id="@+id/checkbox_Stealth"
+                android:text="@string/checkbox_Stealth"/>
 
             <CheckBox
-                android:text="Survival"/>
+                android:id="@+id/checkbox_Survival"
+                android:text="@string/checkbox_Survival"/>
 
         </TableRow>
 
@@ -93,6 +110,12 @@
         <TableRow>
             <TextView
                 android:id="@+id/testRace"
+                android:text="Test Text"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/testClass"
                 android:text="Test Text"/>
         </TableRow>
     </TableLayout>

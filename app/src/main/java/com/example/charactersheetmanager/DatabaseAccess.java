@@ -43,16 +43,24 @@ public class DatabaseAccess {
     public List getSelectedClass(String selectedClass) {
 
         //Create an arrayList to store all values from Class
-        List<String> list = new ArrayList<>();
+        List<String> values = new ArrayList<>();
 
         //SQLite query
         Cursor c = db.rawQuery("SELECT * FROM Class WHERE name = '" + selectedClass + "'", null);
         c.moveToFirst();
 
-        //Insert code here
+        //Add class attributes to values arrayList
+        values.add(c.getString(0)); //Class name
+        values.add(c.getString(1)); //Hit die
+        values.add(c.getString(2)); //Saving throws
+        values.add(c.getString(3)); //Armor proficiencies
+        values.add(c.getString(4)); //Weapon proficiencies
+        values.add(c.getString(5)); //Max number of skills to choose
+        values.add(c.getString(6)); //Skill proficiencies
+        values.add(c.getString(7)); //Tool proficiencies
 
         c.close();
-        return list;
+        return values;
     }
 
     //Read selected race from database
