@@ -1,48 +1,64 @@
 package com.example.charactersheetmanager;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.CheckBox;
-import android.widget.TextView;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class ExpandCharacter extends AppCompatActivity {
 
     public CheckBox[] skills;
+    private List ClassInfo, RaceInfo, BackgroundInfo;
+    private String[] classSkills;
+    private boolean[] checked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expand_character);
 
-        ArrayList<String> classInfo = getIntent().getStringArrayListExtra("classInfo");
-        ArrayList<String> raceInfo = getIntent().getStringArrayListExtra("raceInfo");
-        ArrayList<String> backgroundInfo = getIntent().getStringArrayListExtra("backgroundInfo");
+        // Get character name and level
+        String name = getIntent().getStringExtra("UserName");
+        int level = getIntent().getIntExtra("UserLevel", 1);
+
+        // Get user spinner input from CreateCharacter.java
+        String UserClass = getIntent().getStringExtra("UserClass");
+        String UserRace = getIntent().getStringExtra("UserRace");
+        String UserSubRace = getIntent().getStringExtra("UserSubRace");
+        String UserBackground = getIntent().getStringExtra("UserBackground");
 
         //Finds all the IDs for the skill checkboxes
         findViewForSkills();
 
-        //Checks the appropriate skills as proficient as determined by the background
-        setBackgroundProficiencies(backgroundInfo);
+        // Open connection to database
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter.this);
 
-        //Parse and assign skill proficiencies as determined by the class
-        parseSkillProficiencies(Integer.valueOf(classInfo.get(5)), classInfo.get(6));
+        // Checks the appropriate skills as proficient as determined by the background
+        BackgroundInfo =  databaseAccess.getBackgroundInfo(UserBackground);
+        setBackgroundProficiencies(BackgroundInfo.get(1).toString(), BackgroundInfo.get(2).toString());
 
+        // Checks the appropriate skills as proficient as determined by the race
+        if (UserSubRace.equals("None")) {
+            RaceInfo = databaseAccess.getRaceInfo(UserRace, false);
+        }
 
-        //TextView testBackground = findViewById(R.id.testBackground);
-        //TextView testRace = findViewById(R.id.testRace);
-        //TextView testClass = findViewById(R.id.testClass);
+        else {
+            RaceInfo = databaseAccess.getRaceInfo(UserSubRace, true);
+        }
 
-        //testBackground.setText(TextUtils.join(", ", test1));
-        //testRace.setText(TextUtils.join(",", test2));
-        //testClass.setText(TextUtils.join(",", test3));
-    }
+        if (RaceInfo.get(5) != null) {
+            setRaceProficiencies(RaceInfo.get(5).toString());
+        }
+
+        // Parse and assign skill proficiencies as determined by the class
+        ClassInfo = databaseAccess.getClassInfo(UserClass);
+        setSkillProficiencies(ClassInfo.get(6).toString());
+
+        alertDialogClassSkills(ClassInfo.get(5).toString());
+
+     }
 
     private void findViewForSkills() {
         CheckBox Acrobatics = findViewById(R.id.checkbox_Acrobatics);
@@ -60,7 +76,7 @@ public class ExpandCharacter extends AppCompatActivity {
         CheckBox Performance = findViewById(R.id.checkbox_Performance);
         CheckBox Persuasion = findViewById(R.id.checkbox_Persuasion);
         CheckBox Religion = findViewById(R.id.checkbox_Religion);
-        CheckBox Sleight_of_Hand = findViewById(R.id.checkbox_Sleight_of_hand);
+        CheckBox Sleight_of_Hand = findViewById(R.id.checkbox_Sleight_of_Hand);
         CheckBox Stealth = findViewById(R.id.checkbox_Stealth);
         CheckBox Survival = findViewById(R.id.checkbox_Survival);
 
@@ -70,50 +86,70 @@ public class ExpandCharacter extends AppCompatActivity {
 
     }
 
-    private  void setBackgroundProficiencies(ArrayList backgroundSkills) {
+    // Checks background skill proficiencies
+    private  void setBackgroundProficiencies(String skill_1, String skill_2) {
         for (int i = 0; i < 18; i++) {
             //Compares the background proficiencies with the checkbox array
-            if (backgroundSkills.get(1).equals(skills[i].getText().toString()) || backgroundSkills.get(2).equals(skills[i].getText().toString())) {
+            if (skill_1.equals(skills[i].getText().toString()) || skill_2.equals(skills[i].getText().toString())) {
                 skills[i].setChecked(true);
             }
         }
     }
 
-    private void parseSkillProficiencies(Integer maxSkills, String skills) {
-        //Maximum number of skills the user can choose
-        final int max = maxSkills;
+    // Checks the race skill proficiencies
+    private void setRaceProficiencies(String skill) {
+        for (int i = 0; i < 18; i++) {
+            if (skill.equals(skills[i].getText().toString())) {
+                skills[i].setChecked(true);
+            }
+        }
+    }
 
-        //Split string based on delimiter ","
-        final String[] stringSkills = skills.replace(", ", ",").split(",");
+    // Allows the user to pick their class proficiencies
+    private void setSkillProficiencies(String skillColumn) {
+        // Divide skill column into string array
+        classSkills = skillColumn.replace(", ", ",").split(",");
 
-        boolean[] checked = new boolean[stringSkills.length];
+        // Contains if a class skill is checked or not
+        checked = new boolean[classSkills.length];
 
-        //Creates dialog box for user to assign skill proficiencies
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Choose your class skill proficiencies");
+        // Finds previously checked skills and checks those skills in the alert dialog
+        for (int i = 0; i < skills.length; i++) {
+            if (skills[i].isChecked()) {
+                for (int j = 0; j < classSkills.length; j++) {
+                    if (skills[i].getText().toString().equals(classSkills[j])) {
+                        checked[j] = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
-        alert.setMultiChoiceItems(stringSkills, checked, new DialogInterface.OnMultiChoiceClickListener() {
+    // Creates dialog box for user to assign skill proficiencies
+    private void alertDialogClassSkills(String maxSkills) {
+        // Maximum number of skills the user can choose
+        final int max = Integer.parseInt(maxSkills);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ExpandCharacter.this);
+        builder.setTitle("Class skill proficiencies");
+        builder.setCancelable(true);
+
+        builder.setMultiChoiceItems(classSkills, checked, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                //Need logic here
-            }
-        });
 
-        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            }
+        })
+
+        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.dismiss();
             }
         });
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        alert.show();
-
+        builder.show();
     }
+
 }
