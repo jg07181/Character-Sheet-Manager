@@ -1,69 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="10dp">
 
-    <EditText
-        android:id="@+id/characterName"
-        android:hint="Enter character name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:inputType="text"
-        android:maxLines="1"
-        android:imeOptions="actionDone"/>
+        android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/spinnerClass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/characterName">
-    </Spinner>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
-    <Spinner
-        android:id="@+id/spinnerRace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/spinnerClass">
-    </Spinner>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/spinnerBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/spinnerRace">
-    </Spinner>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Character Name"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp" />
 
-    //Statistics
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="*"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/spinnerBackground">
+                <EditText
+                    android:id="@+id/characterName"
+                    android:hint="@string/characterName"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:imeOptions="actionDone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Level"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/level"
+                    android:hint="@string/level"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:imeOptions="actionDone" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Class"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Archetype"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerArchetype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Race"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerRace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subrace"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerSubRace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Background"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border">
 
         <TableRow>
             <TextView
                 android:id="@+id/textStrength"
                 android:gravity="center"
-                android:text="Strength"/>
+                android:text="@string/textStrength"
+                android:textColor="#6386bf" />
 
             <TextView
                 android:id="@+id/textDexterity"
                 android:gravity="center"
-                android:text="Dexterity"/>
+                android:text="@string/textDexterity"
+                android:textColor="#6386bf" />
 
             <TextView
                 android:id="@+id/textConstitution"
                 android:gravity="center"
-                android:text="Constitution"/>
+                android:text="@string/textConstitution"
+                android:textColor="#6386bf" />
         </TableRow>
 
         <TableRow>
@@ -71,18 +222,21 @@
                 android:id="@+id/inputStrength"
                 android:inputType="number"
                 android:gravity="center_horizontal"
+                android:hint="@string/inputStrength"
                 android:imeOptions="actionDone"/>
 
             <EditText
                 android:id="@+id/inputDexterity"
                 android:inputType="number"
                 android:gravity="center_horizontal"
+                android:hint="@string/inputDexterity"
                 android:imeOptions="actionDone"/>
 
             <EditText
                 android:id="@+id/inputConstitution"
                 android:inputType="number"
                 android:gravity="center_horizontal"
+                android:hint="@string/inputConstitution"
                 android:imeOptions="actionDone"/>
         </TableRow>
 
@@ -90,17 +244,20 @@
             <TextView
                 android:id="@+id/textIntelligence"
                 android:gravity="center"
-                android:text="Intelligence" />
+                android:text="@string/textIntelligence"
+                android:textColor="#6386bf" />
 
             <TextView
                 android:id="@+id/textWisdom"
                 android:gravity="center"
-                android:text="Wisdom" />
+                android:text="@string/textWisdom"
+                android:textColor="#6386bf" />
 
             <TextView
                 android:id="@+id/textCharisma"
                 android:gravity="center"
-                android:text="Charisma"/>
+                android:text="@string/textCharisma"
+                android:textColor="#6386bf" />
         </TableRow>
 
         <TableRow>
@@ -108,26 +265,32 @@
                 android:id="@+id/inputIntelligence"
                 android:inputType="number"
                 android:gravity="center_horizontal"
+                android:hint="@string/inputIntelligence"
                 android:imeOptions="actionDone"/>
 
             <EditText
                 android:id="@+id/inputWisdom"
                 android:inputType="number"
                 android:gravity="center_horizontal"
+                android:hint="@string/inputWisdom"
                 android:imeOptions="actionDone"/>
 
             <EditText
                 android:id="@+id/inputCharisma"
                 android:inputType="number"
                 android:gravity="center_horizontal"
+                android:hint="@string/inputCharisma"
                 android:imeOptions="actionDone"/>
         </TableRow>
+        </TableLayout>
 
         <Button
             android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
+            android:text="@string/nextButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Next" />
-    </TableLayout>
-</RelativeLayout>
+            android:layout_marginTop="10dp"
+            />
+
+    </LinearLayout>
+</ScrollView>

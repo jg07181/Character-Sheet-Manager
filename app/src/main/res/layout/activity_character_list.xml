@@ -11,12 +11,14 @@
         android:id="@+id/characterList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_weight="1" />
 
     <Button
         android:id="@+id/addCharacterButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Add Character"/>
 
 </LinearLayout>

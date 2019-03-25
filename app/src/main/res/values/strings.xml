@@ -1,76 +1,56 @@
 <resources>
     <string name="app_name">Character Sheet Manager</string>
 
-    //
+    //CharacterList Activity strings
     <string name="characterList"></string>
     <string name="addCharacterButton">Add Character</string>
 
     //Character name and level strings
-    <string name="characterName"></string>
-    <string name="level"></string>
+    <string name="characterName">Enter character name</string>
+    <string name="level">1</string>
+    <string name="nextButton">Next</string>
 
     //Spinner strings
     <string name="spinnerRace"></string>
+    <string name="spinnerSubRace"></string>
     <string name="spinnerClass"></string>
+    <string name="spinnerArchetype"></string>
     <string name="spinnerBackground"></string>
 
     //Display Statistics strings
-    <string name="textStrength"></string>
-    <string name="textDexterity"></string>
-    <string name="textConstitution"></string>
-    <string name="textIntelligence"></string>
-    <string name="textWisdom"></string>
-    <string name="textCharisma"></string>
+    <string name="textStrength">Strength</string>
+    <string name="textDexterity">Dexterity</string>
+    <string name="textConstitution">Constitution</string>
+    <string name="textIntelligence">Intelligence</string>
+    <string name="textWisdom">Wisdom</string>
+    <string name="textCharisma">Charisma</string>
 
     //Input Statistics strings
-    <string name="inputStrength"></string>
-    <string name="inputDexterity"></string>
-    <string name="inputConstitution"></string>
-    <string name="inputIntelligence"></string>
-    <string name="inputWisdom"></string>
-    <string name="inputCharisma"></string>
+    <string name="inputStrength">10</string>
+    <string name="inputDexterity">10</string>
+    <string name="inputConstitution">10</string>
+    <string name="inputIntelligence">10</string>
+    <string name="inputWisdom">10</string>
+    <string name="inputCharisma">10</string>
 
-    //Layout string
-    <string name="tableLayout"></string>
+    //Skill proficiency checkboxes
+    <string name="checkbox_Acrobatics">Acrobatics</string>
+    <string name="checkbox_Animal_Handling">Animal Handling</string>
+    <string name="checkbox_Arcana">Arcana</string>
+    <string name="checkbox_Athletics">Athletics</string>
+    <string name="checkbox_Deception">Deception</string>
+    <string name="checkbox_History">History</string>
+    <string name="checkbox_Insight">Insight</string>
+    <string name="checkbox_Intimidation">Intimidation</string>
+    <string name="checkbox_Investigation">Investigation</string>
+    <string name="checkbox_Medicine">Medicine</string>
+    <string name="checkbox_Nature">Nature</string>
+    <string name="checkbox_Perception">Perception</string>
+    <string name="checkbox_Performance">Performance</string>
+    <string name="checkbox_Persuasion">Persuasion</string>
+    <string name="checkbox_Religion">Religion</string>
+    <string name="checkbox_Sleight_of_Hand">Sleight of Hand</string>
+    <string name="checkbox_Stealth">Stealth</string>
+    <string name="checkbox_Survival">Survival</string>
 
-    <string-array name="possibleRaces">
-        <item>Dragonborn</item>
-        <item>Dwarf</item>
-        <item>Elf</item>
-        <item>Gnome</item>
-        <item>Half Elf</item>
-        <item>Half Orc</item>
-        <item>Halfling</item>
-        <item>Human</item>
-        <item>Teifling</item>
-    </string-array>
-
-    <string-array name="possibleClasses">
-        <item>Barbarian</item>
-        <item>Bard</item>
-        <item>Cleric</item>
-        <item>Druid</item>
-        <item>Fighter</item>
-        <item>Monk</item>
-        <item>Paladin</item>
-        <item>Rogue</item>
-        <item>Sorcerer</item>
-        <item>Warlock</item>
-        <item>Wizard</item>
-    </string-array>
-
-    <string-array name="possibleBackgrounds">
-        <item>Acolyte</item>
-        <item>Charlatan</item>
-        <item>Criminal</item>
-        <item>Entertainer</item>
-        <item>Guild Artisan</item>
-        <item>Hermit</item>
-        <item>Noble</item>
-        <item>Outlander</item>
-        <item>Sage</item>
-        <item>Sailor</item>
-        <item>Soldier</item>
-        <item>Urchin</item>
-    </string-array>
 </resources>
