@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,6 +67,70 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:imeOptions="actionDone" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/experience"
+                    android:textAlignment="center"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/experience"
+                    android:hint="0"
+                    android:inputType="number"
+                    android:textAlignment="center"
+                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:imeOptions="actionDone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/proficiency"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/proficiency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/textProficiency"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </LinearLayout>

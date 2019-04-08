@@ -2,7 +2,7 @@
     <string name="app_name">Character Sheet Manager</string>
 
     //CharacterList Activity strings
-    <string name="characterList"></string>
+    <string name="characterList" />
     <string name="addCharacterButton">Add Character</string>
 
     //Character name and level strings
@@ -11,11 +11,16 @@
     <string name="nextButton">Next</string>
 
     //Spinner strings
-    <string name="spinnerRace"></string>
-    <string name="spinnerSubRace"></string>
-    <string name="spinnerClass"></string>
-    <string name="spinnerArchetype"></string>
-    <string name="spinnerBackground"></string>
+    <string name="spinnerRace">Race</string>
+    <string name="spinnerSubRace">Sub-race</string>
+    <string name="spinnerClass">Class</string>
+    <string name="spinnerArchetype">Archetype</string>
+    <string name="spinnerBackground">Background</string>
+
+    //Experience and Proficiency bonus
+    <string name="experience">Experience Points</string>
+    <string name="proficiency">Proficiency Bonus</string>
+    <string name="textProficiency">+ 1</string>
 
     //Display Statistics strings
     <string name="textStrength">Strength</string>
@@ -32,6 +37,9 @@
     <string name="inputIntelligence">10</string>
     <string name="inputWisdom">10</string>
     <string name="inputCharisma">10</string>
+
+    //Message before skills
+    <string name="skills_message" />
 
     //Skill proficiency checkboxes
     <string name="checkbox_Acrobatics">Acrobatics</string>
@@ -52,5 +60,23 @@
     <string name="checkbox_Sleight_of_Hand">Sleight of Hand</string>
     <string name="checkbox_Stealth">Stealth</string>
     <string name="checkbox_Survival">Survival</string>
+
+    //Saving Throw checkboxes
+    <string name="checkbox_Str_Save">Strength</string>
+    <string name="checkbox_Dex_Save">Dexterity</string>
+    <string name="checkbox_Con_Save">Constitution</string>
+    <string name="checkbox_Int_Save">Intelligence</string>
+    <string name="checkbox_Wis_Save">Wisdom</string>
+    <string name="checkbox_Cha_Save">Charisma</string>
+
+    //Weapon and Armor Radio Buttons
+    <string name="radio_Simple_Weapon">Simple Weapons</string>
+    <string name="radio_Martial_Weapon">Martial Weapons</string>
+    <string name="radio_Other_Weapon">Other Weapons</string>
+    <string name="radio_Light_Armor">Light Armor</string>
+    <string name="radio_Medium_Armor">Medium Armor</string>
+    <string name="radio_Heavy_Armor">Heavy Armor</string>
+    <string name="radio_Shield">Shields</string>
+    <string name="textView_Other_weapons" />
 
 </resources>

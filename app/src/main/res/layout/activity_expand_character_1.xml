@@ -24,6 +24,12 @@
                 android:textSize="16sp"
                 android:textAlignment="center"/>
 
+            <TextView
+                android:id="@+id/skills_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"/>
+
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -125,50 +131,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border" >
-
-            <TextView
-                android:text="Armor"
-                android:textColor="#6386bf"
-                android:textSize="16sp"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp" >
-            </Spinner>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border" >
-
-            <TextView
-                android:text="Weapon"
-                android:textColor="#6386bf"
-                android:textSize="16sp"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp" >
-            </Spinner>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             android:background="@drawable/border" >
@@ -189,12 +151,14 @@
 
                 <TableRow>
                     <CheckBox
-                        android:text="@string/textStrength"
+                        android:id="@+id/checkbox_Str_Save"
+                        android:text="@string/checkbox_Str_Save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <CheckBox
-                        android:text="@string/textIntelligence"
+                        android:id="@+id/checkbox_Int_Save"
+                        android:text="@string/checkbox_Int_Save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -202,28 +166,107 @@
 
                 <TableRow>
                     <CheckBox
-                        android:text="@string/textDexterity"
+                        android:id="@+id/checkbox_Dex_Save"
+                        android:text="@string/checkbox_Dex_Save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <CheckBox
-                        android:text="@string/textWisdom"
+                        android:id="@+id/checkbox_Wis_Save"
+                        android:text="@string/checkbox_Wis_Save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow>
                     <CheckBox
-                        android:text="@string/textConstitution"
+                        android:id="@+id/checkbox_Con_Save"
+                        android:text="@string/checkbox_Con_Save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <CheckBox
-                        android:text="@string/textCharisma"
+                        android:id="@+id/checkbox_Cha_Save"
+                        android:text="@string/checkbox_Cha_Save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border">
+
+            <TextView
+                android:text="Weapon and Armor Proficiencies"
+                android:textColor="#6386bf"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <TableRow>
+                    <RadioButton
+                        android:id="@+id/radio_Light_Armor"
+                        android:text="@string/radio_Light_Armor"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_Simple_Weapon"
+                        android:text="@string/radio_Simple_Weapon"/>
+                </TableRow>
+
+                <TableRow>
+                    <RadioButton
+                        android:id="@+id/radio_Medium_Armor"
+                        android:text="@string/radio_Medium_Armor"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_Martial_Weapon"
+                        android:text="@string/radio_Martial_Weapon"/>
+                </TableRow>
+
+                <TableRow>
+                    <RadioButton
+                        android:id="@+id/radio_Heavy_Armor"
+                        android:text="@string/radio_Heavy_Armor"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_Other_Weapon"
+                        android:text="@string/radio_Other_Weapon"/>
+                </TableRow>
+
+                <TableRow>
+                    <RadioButton
+                        android:id="@+id/radio_Shield"
+                        android:text="@string/radio_Shield"/>
+                </TableRow>
+
+                <TextView
+                    android:id="@+id/textView_Other_weapons"
+                     android:textAlignment="center"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone" />
+
+            </TableLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:text="@string/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
     </LinearLayout>
 </ScrollView>
