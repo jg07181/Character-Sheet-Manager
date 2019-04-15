@@ -3,85 +3,66 @@ package com.example.charactersheetmanager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
-public class ExpandCharacter_1 extends AppCompatActivity {
+public class ExpandCharacter_Proficiencies extends AppCompatActivity {
 
-    public CheckBox[] skills;
-    public CheckBox[] saves;
-    private List ClassInfo, RaceInfo, BackgroundInfo;
+    private List ClassInfo, RaceInfo;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expand_character_1);
+        setContentView(R.layout.activity_expand_character_proficiencies);
 
-        // Get character name and level
-        String name = getIntent().getStringExtra("UserName");
-        final int level = getIntent().getIntExtra("UserLevel", 1);
+        setTitle("Proficiencies");
 
-        // Get user spinner input from CreateCharacter.java
-        String UserClass = getIntent().getStringExtra("UserClass");
-        String UserRace = getIntent().getStringExtra("UserRace");
-        String UserSubRace = getIntent().getStringExtra("UserSubRace");
-        String UserBackground = getIntent().getStringExtra("UserBackground");
-
-        // Finds all the IDs for the skill checkboxes
-        findViewForSkills();
-
-        // Open connection to database
-        final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter_1.this);
-
-        // Checks the appropriate skills as proficient as determined by the background
-        BackgroundInfo =  databaseAccess.getBackgroundInfo(UserBackground);
-        setBackgroundProficiencies(BackgroundInfo.get(1).toString(), BackgroundInfo.get(2).toString());
-
-        // Checks the appropriate skills as proficient as determined by the race
-        if (UserSubRace.equals("None")) {
-            RaceInfo = databaseAccess.getRaceInfo(UserRace, false);
-        }
-
-        else {
-            RaceInfo = databaseAccess.getRaceInfo(UserSubRace, true);
-        }
-
-        if (RaceInfo.get(4) != null) {
-            setRaceProficiencies(RaceInfo.get(4).toString());
-        }
-
-        // Parse and assign skill proficiencies as determined by the class
-        ClassInfo = databaseAccess.getClassInfo(UserClass);
-        setClassSkills(ClassInfo.get(7).toString());
-
-        // Maximum number of skills the user can choose
-        int maximum = Integer.parseInt(ClassInfo.get(6).toString());
-
-        TextView skillMessage = findViewById(R.id.skills_message);
-        String message = "Class: " + ClassInfo.get(0).toString() + "\n" + "Choose " + maximum + " skills!";
-        skillMessage.setText(message);
+        // Get intent values
+        ClassInfo = getIntent().getStringArrayListExtra("ClassInfo");
+        RaceInfo = getIntent().getStringArrayListExtra("RaceInfo");
+        level = getIntent().getIntExtra("level", 1);
 
         // Set saving throw proficiencies as determined by the class
         setSavingThrows(ClassInfo.get(3).toString());
 
         // Set both armor and weapon proficiencies
-        setArmorAndWeaponProficiencies();
+        setArmorAndWeaponProficiencies(ClassInfo, RaceInfo);
 
-        // Next Button
+        // Set languages
+        setLanguages(RaceInfo.get(9).toString());
+
+        // Set tools
+        if (RaceInfo.get(7) != null) {
+            setTools(RaceInfo.get(7).toString());
+        }
+
+        else {
+            setTools("None");
+        }
+
+        // nextButton click handler
         Button nextButton = findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExpandCharacter_1.this, ExpandCharacter_2.class);
+                Intent intent = new Intent(ExpandCharacter_Proficiencies.this, ExpandCharacter_Abilities.class);
 
-                if (RaceInfo.get(13) != null) {
-                    intent.putExtra("Abilities", RaceInfo.get(13).toString());
+                if (RaceInfo.get(11) != null) {
+                    intent.putExtra("raceAbilities", RaceInfo.get(11).toString());
+                    intent.putExtra("raceDescriptions", RaceInfo.get(12).toString());
                 }
+
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter_Proficiencies.this);
 
                 // Get array of feature names
                 String[] classAbilities = databaseAccess.getClassAbilities(ClassInfo.get(0).toString(), level);
@@ -91,72 +72,24 @@ public class ExpandCharacter_1 extends AppCompatActivity {
                 String[] abilityDesc = databaseAccess.getClassDescriptions(ClassInfo.get(0).toString(), level);
                 intent.putExtra("descriptions", abilityDesc);
 
+                // Get int array of ability levels
+                int[] abilityLevel = databaseAccess.getClassLevels(ClassInfo.get(0).toString(), level);
+                intent.putExtra("levels", abilityLevel);
+
+                intent.putExtra("UserName", getIntent().getStringExtra("UserName"));
+                intent.putExtra("UserLevel", level);
+                intent.putExtra("UserClass", getIntent().getStringExtra("UserClass"));
+                intent.putExtra("UserArchetype", getIntent().getStringExtra("UserArchetype"));
+                intent.putExtra("UserRace", getIntent().getStringExtra("UserRace"));
+                intent.putExtra("UserSubRace", getIntent().getStringExtra("UserSubRace"));
+                intent.putExtra("UserBackground", getIntent().getStringExtra("UserBackground"));
+                intent.putExtra("UserScore", getIntent().getIntArrayExtra("UserScore"));
+                intent.putExtra("UserMod", getIntent().getIntArrayExtra("UserMod"));
+
                 startActivity(intent);
+
             }
         });
-
-    }
-
-    // Finds all the IDs for each skill checkbox and places them in a Checkbox[] array
-    private void findViewForSkills() {
-        CheckBox Acrobatics = findViewById(R.id.checkbox_Acrobatics);
-        CheckBox Animal_Handling = findViewById(R.id.checkbox_Animal_Handling);
-        CheckBox Arcana = findViewById(R.id.checkbox_Arcana);
-        CheckBox Athletics = findViewById(R.id.checkbox_Athletics);
-        CheckBox Deception = findViewById(R.id.checkbox_Deception);
-        CheckBox History = findViewById(R.id.checkbox_History);
-        CheckBox Insight = findViewById(R.id.checkbox_Insight);
-        CheckBox Intimidation = findViewById(R.id.checkbox_Intimidation);
-        CheckBox Investigation = findViewById(R.id.checkbox_Investigation);
-        CheckBox Medicine = findViewById(R.id.checkbox_Medicine);
-        CheckBox Nature = findViewById(R.id.checkbox_Nature);
-        CheckBox Perception = findViewById(R.id.checkbox_Perception);
-        CheckBox Performance = findViewById(R.id.checkbox_Performance);
-        CheckBox Persuasion = findViewById(R.id.checkbox_Persuasion);
-        CheckBox Religion = findViewById(R.id.checkbox_Religion);
-        CheckBox Sleight_of_Hand = findViewById(R.id.checkbox_Sleight_of_Hand);
-        CheckBox Stealth = findViewById(R.id.checkbox_Stealth);
-        CheckBox Survival = findViewById(R.id.checkbox_Survival);
-
-        //Adds all checkboxes to skills array
-        skills = new CheckBox[] {Acrobatics, Animal_Handling, Arcana, Athletics, Deception, History, Insight, Intimidation, Investigation,
-                                 Medicine, Nature, Perception, Performance, Persuasion, Religion, Sleight_of_Hand, Stealth, Survival};
-
-        for (CheckBox skill : skills) {
-            skill.setEnabled(false);
-        }
-
-    }
-
-    // Checks background skill proficiencies
-    private  void setBackgroundProficiencies(String skill_1, String skill_2) {
-        for (CheckBox skill : skills) {
-            // Compares the background proficiencies with the checkbox array
-            if (skill_1.equals(skill.getText().toString()) || skill_2.equals(skill.getText().toString())) {
-                skill.setChecked(true);
-            }
-
-        }
-
-    }
-
-    // Checks the race skill proficiencies
-    private void setRaceProficiencies(String skill) {
-        // Checks if a skill is specified or simply a number to choose from
-        if (!android.text.TextUtils.isDigitsOnly(skill)) {
-            for (CheckBox skill1 : skills) {
-                if (skill.equals(skill1.getText().toString())) {
-                    skill1.setChecked(true);
-                }
-
-            }
-
-        }
-
-        else {
-            int num = Integer.parseInt(skill);
-
-        }
 
     }
 
@@ -169,8 +102,7 @@ public class ExpandCharacter_1 extends AppCompatActivity {
         CheckBox saveWis = findViewById(R.id.checkbox_Wis_Save);
         CheckBox saveCha = findViewById(R.id.checkbox_Cha_Save);
 
-        saves = new CheckBox[] {saveStr, saveDex, saveCon, saveInt, saveWis, saveCha};
-
+        CheckBox[] saves = new CheckBox[]{saveStr, saveDex, saveCon, saveInt, saveWis, saveCha};
         String[] classSaves = Saves.replace(", ", ",").split(",");
 
         for (CheckBox save : saves) {
@@ -185,26 +117,8 @@ public class ExpandCharacter_1 extends AppCompatActivity {
 
     }
 
-    // Allows the user to pick their class proficiencies
-    private void setClassSkills(String possibleSkills) {
-        // Divide skill column into string array
-        String[] classSkills = possibleSkills.replace(", ", ",").split(",");
-
-        // Enables checkable skills based on possible class skills
-        for (CheckBox skill : skills) {
-            for (String classSkill : classSkills) {
-                if (classSkill.equals(skill.getText().toString())) {
-                    skill.setEnabled(true);
-                }
-
-            }
-
-        }
-
-    }
-
     // Set weapon and armor proficiencies as determined by the class and race
-    private void setArmorAndWeaponProficiencies() {
+    private void setArmorAndWeaponProficiencies(List ClassInfo, List RaceInfo) {
         // if statements for weapons
         if (RaceInfo.get(6) != null) {
             setWeaponProficiencies(ClassInfo.get(5).toString(), RaceInfo.get(6).toString());
@@ -334,6 +248,32 @@ public class ExpandCharacter_1 extends AppCompatActivity {
             otherWeaponText.setText(text);
             otherWeaponText.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    private void setLanguages(String language) {
+        TextView textLanguage = findViewById(R.id.textLanguage);
+        String[] languages = language.split(",");
+
+        for (String language1 : languages) {
+            textLanguage.append(language1 + ", ");
+        }
+
+        String text = textLanguage.getText().toString().replaceAll(", $", "");
+        textLanguage.setText(text);
+
+    }
+
+    private void setTools(String tool) {
+        TextView textTool = findViewById(R.id.textTool);
+        String[] tools = tool.split(";");
+
+        for (String tool1 : tools) {
+            textTool.append(tool1 + ", ");
+        }
+
+        String text = textTool.getText().toString().replaceAll(", $", "");
+        textTool.setText(text);
 
     }
 

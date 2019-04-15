@@ -14,6 +14,15 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
 
     private List<CharacterFragment> listCharacters;
     private Context context;
+    private onItemClickListener mListener;
+
+    public interface onItemClickListener {
+        void  onItemClick(int position);
+    }
+
+    public void setOnItemClickedListener(onItemClickListener listener) {
+        mListener = listener;
+    }
 
     public CharacterListAdapter(List<CharacterFragment> listCharacters, Context context) {
         this.listCharacters = listCharacters;
@@ -24,7 +33,7 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_character_fragment,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mListener);
     }
 
     @Override
@@ -52,13 +61,26 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         public TextView tvClass;
         public TextView tvBackground;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.CharacterName);
-            tvLevel = (TextView) itemView.findViewById(R.id.LevelText);
-            tvRace = (TextView) itemView.findViewById(R.id.RaceName);
-            tvClass = (TextView) itemView.findViewById(R.id.ClassName);
-            tvBackground = (TextView) itemView.findViewById(R.id.BackgroundName);
+            tvName = itemView.findViewById(R.id.CharacterName);
+            tvLevel = itemView.findViewById(R.id.LevelText);
+            tvRace = itemView.findViewById(R.id.RaceName);
+            tvClass = itemView.findViewById(R.id.ClassName);
+            tvBackground = itemView.findViewById(R.id.BackgroundName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+
+                }
+            });
         }
     }
 }

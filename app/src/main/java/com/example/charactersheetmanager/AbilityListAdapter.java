@@ -29,10 +29,24 @@ public class AbilityListAdapter extends RecyclerView.Adapter<AbilityListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        AbilityFragment abilityFragment = listAbilities.get(i);
+        final AbilityFragment abilityFragment = listAbilities.get(i);
 
-        viewHolder.tvTitle.setText(abilityFragment.getmTitle());
-        viewHolder.tvDescription.setText(abilityFragment.getmDescription());
+        if (abilityFragment.getLevel() == 0) {
+            String levelText = "Racial Feature";
+
+            viewHolder.tvTitle.setText(abilityFragment.getTitle());
+            viewHolder.tvDescription.setText(abilityFragment.getDescription());
+            viewHolder.tvLevel.setText(levelText);
+        }
+
+        else {
+            String levelText = "Level " + abilityFragment.getLevel();
+
+            viewHolder.tvTitle.setText(abilityFragment.getTitle());
+            viewHolder.tvDescription.setText(abilityFragment.getDescription());
+            viewHolder.tvLevel.setText(levelText);
+        }
+
     }
 
     @Override
@@ -40,16 +54,18 @@ public class AbilityListAdapter extends RecyclerView.Adapter<AbilityListAdapter.
         return listAbilities.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView tvTitle;
         public TextView tvDescription;
+        public TextView tvLevel;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.abilityTitle);
             tvDescription = itemView.findViewById(R.id.abilityDescription);
+            tvLevel = itemView.findViewById(R.id.abilityLevel);
+
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.example.charactersheetmanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +16,6 @@ import java.util.List;
 
 public class CharacterList extends AppCompatActivity {
 
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-    private List<CharacterFragment> characterList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +25,7 @@ public class CharacterList extends AppCompatActivity {
         setUpRecyclerView();
 
         //Add Character Button
-        Button addCharacter = findViewById(R.id.addCharacterButton);
+        FloatingActionButton addCharacter = findViewById(R.id.fabAddCharacter);
         addCharacter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,18 +40,49 @@ public class CharacterList extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.characterList);
         recyclerView.hasFixedSize();
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        characterList = new ArrayList<>();
+        final List<CharacterFragment> characterList = new ArrayList<>();
 
-        for (int i = 0; i <= 10; i++){
-            CharacterFragment characterFragment = new CharacterFragment("Jim","" + i,"Dragonborn","Thief","Sailor");
-            characterList.add(characterFragment);
+        // Get all created character's name, level, class, race, and background
+        final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(CharacterList.this);
+        databaseAccess.open();
+
+        final List<String> playerName =  databaseAccess.checkDatabase("name");
+        List<String> payerLevel = databaseAccess.checkDatabase("level");
+        final List<String> playerClass = databaseAccess.checkDatabase("class");
+        final List<String> playerRace = databaseAccess.checkDatabase("race");
+        final List<String> playerSubRace = databaseAccess.checkDatabase("subrace");
+        final List<String> playerBackground = databaseAccess.checkDatabase("background");
+
+        // Iterate through all saved characters
+        for (int i = 0; i < playerName.size(); i++){
+            if (playerSubRace.get(i).equals("None")) {
+                CharacterFragment characterFragment = new CharacterFragment(playerName.get(i),"level " + payerLevel.get(i), playerRace.get(i), playerClass.get(i), playerBackground.get(i));
+                characterList.add(characterFragment);
+            }
+
+            else {
+                CharacterFragment characterFragment = new CharacterFragment(playerName.get(i),"level " + payerLevel.get(i), playerSubRace.get(i), playerClass.get(i), playerBackground.get(i));
+                characterList.add(characterFragment);
+            }
+
         }
 
-        adapter = new CharacterListAdapter(characterList,this);
+        final RecyclerView.Adapter adapter = new CharacterListAdapter(characterList, this);
         recyclerView.setAdapter(adapter);
+
+        ((CharacterListAdapter) adapter).setOnItemClickedListener(new CharacterListAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(final int position) {
+                characterList.remove(position);
+                adapter.notifyItemRemoved(position);
+
+                // Removes character from database
+                databaseAccess.removeCharacter(playerName.get(position), playerClass.get(position), playerRace.get(position), playerSubRace.get(position), playerBackground.get(position));
+            }
+        });
     }
 
 }

@@ -1,11 +1,7 @@
 package com.example.charactersheetmanager;
 
 public class CharacterFragment {
-    private String CharacterName;
-    private String Level;
-    private String Race;
-    private String CharacterClass;
-    private String Background;
+    private String CharacterName, Level, Race, CharacterClass, Background;
 
     public CharacterFragment(String characterName, String level, String race, String characterClass, String background) {
         CharacterName = characterName;

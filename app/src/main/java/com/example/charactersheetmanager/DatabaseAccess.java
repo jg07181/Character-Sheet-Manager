@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseAccess {
@@ -139,6 +140,28 @@ public class DatabaseAccess {
         return featureList;
     }
 
+    public int[] getClassLevels(String Class, int level) {
+        Cursor c = db.rawQuery("SELECT level FROM " + Class + " WHERE level >= 1 AND level <= " + level + " ORDER BY level", null);
+        ArrayList<Integer> list = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                int lvl = c.getInt(c.getColumnIndexOrThrow("level"));
+                list.add(lvl);
+            }
+            while (c.moveToNext());
+        }
+        c.close();
+
+        int[] levelList = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            levelList[i] = list.get(i);
+        }
+
+        return levelList;
+    }
+
     public String[] getArchetypeList(String Class) {
         Cursor c = db.rawQuery("SELECT archetype FROM Class WHERE name = '" + Class + "' ORDER BY archetype ASC", null);
 
@@ -150,7 +173,6 @@ public class DatabaseAccess {
     }
 
     public List getRaceInfo (String Race, boolean isSubRace) {
-
         Cursor c;
 
         // Checks is the the selected race has a subrace or not
@@ -175,11 +197,10 @@ public class DatabaseAccess {
         values.add(c.getString(6));  // Weapon proficiencies
         values.add(c.getString(7));  // Tool proficiencies
         values.add(c.getString(8));  // Speed
-        values.add(c.getString(9));  // Language #1
-        values.add(c.getString(10)); // Language #2
-        values.add(c.getString(11)); // Language #3
-        values.add(c.getString(12)); // Resistances
-        values.add(c.getString(13)); // Features
+        values.add(c.getString(9));  // Languages
+        values.add(c.getString(10)); // Resistances
+        values.add(c.getString(11)); // Features
+        values.add(c.getString(12)); // Feature description
 
         c.close();
         return values;
@@ -198,6 +219,66 @@ public class DatabaseAccess {
         values.add(c.getString(3)); // Number of extra languages
         values.add(c.getString(4)); // Tool proficiency #1
         values.add(c.getString(5)); // Tool proficiency #2
+
+        c.close();
+        return values;
+    }
+
+    public void saveCharacter(CompletedCharacter character) {
+        String Name = character.getName(),
+                Class = character.getClassName(),
+                Archetype = character.getArchetype(),
+                Race = character.getRace(),
+                SubRace = character.getSubRace(),
+                Background = character.getBackground();
+
+        int Level = character.getLevel();
+        int[] Score = character.getScore(),
+                Modifier = character.getModifier();
+
+        Cursor c = db.rawQuery("INSERT INTO completedCharacter (name, level, class, archetype, race, subrace, background, abilities, modifiers) VALUES " +
+                "('" + Name + "','" + Level + "','" + Class + "','" + Archetype + "','" + Race + "','" + SubRace + "','" + Background + "','" + Arrays.toString(Score) + "','" + Arrays.toString(Modifier) + "')", null);
+
+        c.moveToNext();
+        c.close();
+    }
+
+    public List<String> checkDatabase(String column) {
+        Cursor c = db.rawQuery("SELECT " + column + " FROM completedCharacter", null);
+        List<String> value = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                String item = c.getString(c.getColumnIndexOrThrow(column));
+                value.add(item);
+            }
+            while (c.moveToNext());
+        }
+        c.close();
+        return value;
+    }
+
+    public void removeCharacter(String Name, String Class, String Race, String SubRace, String Background) {
+        Cursor c = db.rawQuery("DELETE FROM completedCharacter WHERE name = '" + Name + "' AND class = '" + Class + "' AND race = '" + Race + "' AND subrace = '" + SubRace + "' AND background = '" + Background + "'", null);
+        c.moveToFirst();
+        c.close();
+    }
+
+    public List getCharacter(String Name, String Class, String Race, String SubRace, String Background) {
+        Cursor c = db.rawQuery("", null);
+        List<String> values = new ArrayList<>();
+        c.moveToFirst();
+
+        // Add character attributes to values arrayList
+        values.add(c.getString(0)); // Name
+        values.add(c.getString(1)); // Level
+        values.add(c.getString(2)); // Class
+        values.add(c.getString(3)); // Archetype
+        values.add(c.getString(4)); // Race
+        values.add(c.getString(5)); // Sub-race
+        values.add(c.getString(6)); // Background
+        values.add(c.getString(7)); // Score
+        values.add(c.getString(8)); // Modifier
 
         c.close();
         return values;

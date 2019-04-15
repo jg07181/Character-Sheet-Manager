@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_margin="10dp">
+    android:layout_margin="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -253,108 +253,12 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TableLayout
-            android:id="@+id/tableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border">
-
-        <TableRow>
-            <TextView
-                android:id="@+id/textStrength"
-                android:gravity="center"
-                android:text="@string/textStrength"
-                android:textColor="#6386bf" />
-
-            <TextView
-                android:id="@+id/textDexterity"
-                android:gravity="center"
-                android:text="@string/textDexterity"
-                android:textColor="#6386bf" />
-
-            <TextView
-                android:id="@+id/textConstitution"
-                android:gravity="center"
-                android:text="@string/textConstitution"
-                android:textColor="#6386bf" />
-        </TableRow>
-
-        <TableRow>
-            <EditText
-                android:id="@+id/inputStrength"
-                android:inputType="number"
-                android:gravity="center_horizontal"
-                android:hint="@string/inputStrength"
-                android:imeOptions="actionDone"/>
-
-            <EditText
-                android:id="@+id/inputDexterity"
-                android:inputType="number"
-                android:gravity="center_horizontal"
-                android:hint="@string/inputDexterity"
-                android:imeOptions="actionDone"/>
-
-            <EditText
-                android:id="@+id/inputConstitution"
-                android:inputType="number"
-                android:gravity="center_horizontal"
-                android:hint="@string/inputConstitution"
-                android:imeOptions="actionDone"/>
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:id="@+id/textIntelligence"
-                android:gravity="center"
-                android:text="@string/textIntelligence"
-                android:textColor="#6386bf" />
-
-            <TextView
-                android:id="@+id/textWisdom"
-                android:gravity="center"
-                android:text="@string/textWisdom"
-                android:textColor="#6386bf" />
-
-            <TextView
-                android:id="@+id/textCharisma"
-                android:gravity="center"
-                android:text="@string/textCharisma"
-                android:textColor="#6386bf" />
-        </TableRow>
-
-        <TableRow>
-            <EditText
-                android:id="@+id/inputIntelligence"
-                android:inputType="number"
-                android:gravity="center_horizontal"
-                android:hint="@string/inputIntelligence"
-                android:imeOptions="actionDone"/>
-
-            <EditText
-                android:id="@+id/inputWisdom"
-                android:inputType="number"
-                android:gravity="center_horizontal"
-                android:hint="@string/inputWisdom"
-                android:imeOptions="actionDone"/>
-
-            <EditText
-                android:id="@+id/inputCharisma"
-                android:inputType="number"
-                android:gravity="center_horizontal"
-                android:hint="@string/inputCharisma"
-                android:imeOptions="actionDone"/>
-        </TableRow>
-        </TableLayout>
-
         <Button
             android:id="@+id/nextButton"
             android:text="@string/nextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            />
+            android:layout_marginTop="5dp" />
 
     </LinearLayout>
 </ScrollView>

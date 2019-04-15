@@ -16,22 +16,21 @@ import android.widget.Toast;
 
 public class CreateCharacter extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText characterName, level;
+    private EditText level;
     private Spinner chooseClass, chooseArchetype, chooseRace, chooseSubRace, chooseBackground;
-    private Button nextButton;
     private String Table;
 
     // Character variables
     private String UserName;
     private int UserLevel;
     private int experience, proficiency;
-    private int[] abilities = new int[6];
-    private int[] abilityMods = new int[6];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_character);
+
+        setTitle("Fundamental Information");
 
         final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(CreateCharacter.this);
         databaseAccess.open();
@@ -71,38 +70,36 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        // Passes all inputted values to ExpandCharacter_1.java
-        nextButton = findViewById(R.id.nextButton);
+        // Passes all inputted values to ExpandCharacter_Skills.java
+        Button nextButton = findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                boolean completed =checkCompletedForm();
-                
-                if (completed) {
-                    Intent intent = new Intent(CreateCharacter.this, ExpandCharacter_1.class);
+                boolean completed = checkCompletedForm();
 
-                    // Passes the entered character name, level, and proficiency to ExpandCharacter_1.java
+                if (completed) {
+                    Intent intent = new Intent(CreateCharacter.this, ExpandCharacter_Skills.class);
+
+                    // Passes the entered character name, level, and proficiency to ExpandCharacter_Skills.java
                     intent.putExtra("UserName", UserName);
                     intent.putExtra("UserLevel", UserLevel);
                     intent.putExtra("proficiency", proficiency);
 
-                    // Passes the chosen class to ExpandCharacter_1.java
+                    // Passes the chosen class to ExpandCharacter_Skills.java
                     intent.putExtra("UserClass", chooseClass.getSelectedItem().toString());
+                    intent.putExtra("UserArchetype", chooseArchetype.getSelectedItem().toString());
 
-                    // Passes the chosen race and sub-race to ExpandCharacter_1.java
+                    // Passes the chosen race and sub-race to ExpandCharacter_Skills.java
                     intent.putExtra("UserRace", chooseRace.getSelectedItem().toString());
                     intent.putExtra("UserSubRace", chooseSubRace.getSelectedItem().toString());
 
-                    // Passes the chosen background to ExpandCharacter_1.java
+                    // Passes the chosen background to ExpandCharacter_Skills.java
                     intent.putExtra("UserBackground", chooseBackground.getSelectedItem().toString());
-
-                    // Passes the inputted ability scores
-                    intent.putExtra("UserStats", abilities);
 
                     startActivity(intent);
                 }
-                
+
                 else {
                     Toast.makeText(CreateCharacter.this, "Please complete the form", Toast.LENGTH_SHORT).show();
                 }
@@ -111,7 +108,7 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         });
 
         // Enter character name via EditText
-        characterName = findViewById(R.id.characterName);
+        EditText characterName = findViewById(R.id.characterName);
         characterName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -121,7 +118,7 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
                 }
                 
                 else {
-                    Toast.makeText(CreateCharacter.this, "Please an a name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateCharacter.this, "Please enter a name", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -159,93 +156,6 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        // Save stat and create modifier
-        EditText inputStrength = findViewById(R.id.inputStrength);
-        inputStrength.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Check bounds and get modifier
-                if (validInput(v) != -1) {
-                    abilities[0] = validInput(v);
-                    abilityMods[0] = getModifier(abilities[0]);
-                }
-                return true;
-            }
-        });
-
-        // Save stat and create modifier
-        EditText inputDexterity = findViewById(R.id.inputDexterity);
-        inputDexterity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Check bounds and get modifier
-                if (validInput(v) != -1) {
-                    abilities[1] = validInput(v);
-                    abilityMods[1] = getModifier(abilities[1]);
-
-                }
-                return true;
-            }
-        });
-
-        // Save stat and create modifier
-        EditText inputConstitution = findViewById(R.id.inputConstitution);
-        inputConstitution.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Check bounds and get modifier
-                if (validInput(v) != -1) {
-                    abilities[2] = validInput(v);
-                    abilityMods[2] = getModifier(abilities[2]);
-
-                }
-                return true;
-            }
-        });
-
-        // Save stat and create modifier
-        EditText inputIntelligence = findViewById(R.id.inputIntelligence);
-        inputIntelligence.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Check bounds and get modifier
-                if (validInput(v) != -1) {
-                    abilities[3] = validInput(v);
-                    abilityMods[3] = getModifier(abilities[3]);
-
-                }
-                return true;
-            }
-        });
-
-        // Save stat and create modifier
-        EditText inputWisdom = findViewById(R.id.inputWisdom);
-        inputWisdom.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Check bounds and get modifier
-                if (validInput(v) != -1) {
-                    abilities[4] = validInput(v);
-                    abilityMods[4] = getModifier(abilities[4]);
-
-                }
-                return true;
-            }
-        });
-
-        // Save stat and create modifier
-        EditText inputCharisma = findViewById(R.id.inputCharisma);
-        inputCharisma.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Check bounds and get modifier
-                if (validInput(v) != -1) {
-                    abilities[5] = validInput(v);
-                    abilityMods[5] = getModifier(abilities[5]);
-                }
-                return true;
-            }
-        });
     }
 
     private void spinnerClassSetUp(DatabaseAccess databaseAccess) {
@@ -294,28 +204,6 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapterBackground = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, backgroundList);
         adapterBackground.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseBackground.setAdapter(adapterBackground);
-    }
-
-    // Check for valid input and within bounds
-    public int validInput(TextView input) {
-        // Check that the input field isn't empty
-        if (!input.getText().toString().equals("")) {
-            String statString = input.getText().toString();
-            int statInt = Integer.parseInt(statString);
-
-            // Check that the input is within range
-            if (statInt > 30 || statInt < 0) {
-                input.setError("Please enter a number between 0 and 30");
-                return -1;
-            }
-            else return statInt;
-        }
-        return -1;
-    }
-
-    // Gets the modifier of an ability
-    public int getModifier(Integer stat) {
-        return (stat - 10) / 2;
     }
 
     // Sets level and proficiency based on inputted experience
@@ -657,10 +545,9 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
     private boolean checkCompletedForm() {
         boolean completed = false;
 
-        for (int ability : abilities) {
-            if (UserName != null && !UserName.isEmpty() && UserLevel != 0 && ability != 0) {
-                completed = true;
-            }
+        if (UserName != null && !UserName.isEmpty() && UserLevel != 0) {
+            completed = true;
+
         }
 
         return completed;

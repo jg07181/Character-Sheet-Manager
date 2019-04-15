@@ -4,34 +4,24 @@ public class AbilityFragment {
 
     private String mTitle;
     private String mDescription;
-    private  boolean mExpanded;
+    private int mLevel;
 
-    public AbilityFragment(String title, String description) {
+    public AbilityFragment(String title, String description, int level) {
         mTitle = title;
         mDescription = description;
+        mLevel = level;
     }
 
-    public String getmTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
-    }
-
-    public String getmDescription() {
+    public String getDescription() {
         return mDescription;
     }
 
-    public void setmDescription(String mDescription) {
-        this.mDescription = mDescription;
+    public int getLevel() {
+        return mLevel;
     }
 
-    public boolean ismExpanded() {
-        return mExpanded;
-    }
-
-    public void setmExpanded(boolean mExpanded) {
-        this.mExpanded = mExpanded;
-    }
 }

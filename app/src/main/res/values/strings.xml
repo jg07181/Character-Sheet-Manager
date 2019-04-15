@@ -30,6 +30,13 @@
     <string name="textWisdom">Wisdom</string>
     <string name="textCharisma">Charisma</string>
 
+    <string name="textStrengthMod" />
+    <string name="textDexterityMod" />
+    <string name="textConstitutionMod" />
+    <string name="textIntelligenceMod" />
+    <string name="textWisdomMod" />
+    <string name="textCharismaMod" />
+
     //Input Statistics strings
     <string name="inputStrength">10</string>
     <string name="inputDexterity">10</string>
