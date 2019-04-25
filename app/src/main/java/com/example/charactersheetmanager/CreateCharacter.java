@@ -2,6 +2,7 @@ package com.example.charactersheetmanager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,9 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class CreateCharacter extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText level;
+    private EditText characterName, level;
     private Spinner chooseClass, chooseArchetype, chooseRace, chooseSubRace, chooseBackground;
     private String Table;
 
@@ -24,16 +27,41 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
     private String UserName;
     private int UserLevel;
     private int experience, proficiency;
+    private String preName, preLevel, preClass, preArchetype, preRace, preSubRace, preBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_character);
-
         setTitle("Fundamental Information");
 
         final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(CreateCharacter.this);
         databaseAccess.open();
+
+        characterName = findViewById(R.id.characterName);
+        level = findViewById(R.id.level);
+
+        // Checks if the user clicked on a pre-existing character
+        if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+            ArrayList<String> CharacterInfo = getIntent().getStringArrayListExtra("CharacterInfo");
+
+            // Gathers all character information relevant to this activity
+            preName = CharacterInfo.get(0);
+            preLevel = CharacterInfo.get(1);
+            preClass = CharacterInfo.get(2);
+            preArchetype = CharacterInfo.get(3);
+            preRace = CharacterInfo.get(4);
+            preSubRace = CharacterInfo.get(5);
+            preBackground = CharacterInfo.get(6);
+
+            // Sets existing character name and level
+            characterName.setText(preName);
+            level.setText(preLevel);
+
+            UserLevel = Integer.parseInt(preLevel);
+            setLevel();
+
+        }
 
         // Set up spinners which read from the database
         spinnerClassSetUp(databaseAccess);
@@ -97,6 +125,11 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
                     // Passes the chosen background to ExpandCharacter_Skills.java
                     intent.putExtra("UserBackground", chooseBackground.getSelectedItem().toString());
 
+                    // Passes created character info if it exists
+                    if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+                        intent.putExtra("CharacterInfo", getIntent().getStringArrayListExtra("CharacterInfo"));
+                    }
+
                     startActivity(intent);
                 }
 
@@ -108,7 +141,6 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         });
 
         // Enter character name via EditText
-        EditText characterName = findViewById(R.id.characterName);
         characterName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -125,7 +157,6 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         });
 
         // Enter character level via EditText
-        level = findViewById(R.id.level);
         level.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -166,6 +197,12 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapterClass = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, classList);
         adapterClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseClass.setAdapter(adapterClass);
+
+        // Sets spinner to selected class if opening an existing character
+        if (preClass != null) {
+            int position = adapterClass.getPosition(preClass);
+            chooseClass.setSelection(position);
+        }
     }
 
     private void spinnerArchetypeSetUp(DatabaseAccess databaseAccess, String Class) {
@@ -175,6 +212,12 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapterArchetype = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, archetypeList);
         adapterArchetype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseArchetype.setAdapter(adapterArchetype);
+
+        // Sets spinner to selected archetype if opening an existing character
+        if (preArchetype != null) {
+            int position = adapterArchetype.getPosition(preArchetype);
+            chooseArchetype.setSelection(position);
+        }
     }
 
     private void spinnerRaceSetUp(DatabaseAccess databaseAccess) {
@@ -185,6 +228,12 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapterRace = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, raceList);
         adapterRace.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseRace.setAdapter(adapterRace);
+
+        // Sets spinner to selected race if opening an existing character
+        if (preRace != null) {
+            int position = adapterRace.getPosition(preRace);
+            chooseRace.setSelection(position);
+        }
     }
 
     private void spinnerSubRaceSetUp(DatabaseAccess databaseAccess, String race) {
@@ -194,6 +243,12 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapterSubRace = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subRaceList);
         adapterSubRace.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseSubRace.setAdapter(adapterSubRace);
+
+        // Sets spinner to selected sub-race if opening an existing character
+        if (preSubRace != null) {
+            int position = adapterSubRace.getPosition(preSubRace);
+            chooseSubRace.setSelection(position);
+        }
     }
 
     private void spinnerBackground(DatabaseAccess databaseAccess) {
@@ -204,6 +259,12 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapterBackground = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, backgroundList);
         adapterBackground.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseBackground.setAdapter(adapterBackground);
+
+        // Sets spinner to selected class if opening an existing character
+        if (preBackground != null) {
+            int position = adapterBackground.getPosition(preBackground);
+            chooseBackground.setSelection(position);
+        }
     }
 
     // Sets level and proficiency based on inputted experience

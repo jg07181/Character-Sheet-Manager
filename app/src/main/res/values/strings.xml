@@ -22,6 +22,15 @@
     <string name="proficiency">Proficiency Bonus</string>
     <string name="textProficiency">+ 1</string>
 
+    <string name="textName">Character Name</string>
+    <string name="textLevel">Level</string>
+    <string name="textClass">Class</string>
+    <string name="textArchetype">Archetype</string>
+    <string name="textRace">Race</string>
+    <string name="textSubRace">Subrace</string>
+    <string name="textBackground">Background</string>
+    <string name="editTextExp">0</string>
+
     //Display Statistics strings
     <string name="textStrength">Strength</string>
     <string name="textDexterity">Dexterity</string>
@@ -84,6 +93,8 @@
     <string name="radio_Medium_Armor">Medium Armor</string>
     <string name="radio_Heavy_Armor">Heavy Armor</string>
     <string name="radio_Shield">Shields</string>
-    <string name="textView_Other_weapons" />
+    <string name="editText_Other_weapons" />
+
+    <string name="btnSave">Save</string>
 
 </resources>

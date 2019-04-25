@@ -66,8 +66,18 @@ public class ExpandCharacter_Abilities extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter_Abilities.this);
-                databaseAccess.saveCharacter(finishedCharacter);
-                Toast.makeText(ExpandCharacter_Abilities.this, "Character saved!", Toast.LENGTH_SHORT).show();
+
+                // Updates existing character
+                if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+                    databaseAccess.updateCharacter(finishedCharacter);
+                    Toast.makeText(ExpandCharacter_Abilities.this, "Character updated!", Toast.LENGTH_SHORT).show();
+                }
+
+                // Saves new character
+                else {
+                    databaseAccess.saveCharacter(finishedCharacter);
+                    Toast.makeText(ExpandCharacter_Abilities.this, "Character saved!", Toast.LENGTH_SHORT).show();
+                }
 
                 Intent intent = new Intent(ExpandCharacter_Abilities.this, CharacterList.class);
                 startActivity(intent);
@@ -118,12 +128,23 @@ public class ExpandCharacter_Abilities extends AppCompatActivity {
         String UserSubRace = getIntent().getStringExtra("UserSubRace");
         String UserBackground = getIntent().getStringExtra("UserBackground");
 
+        int UserHP = getIntent().getIntExtra("UserHP", 0);
+        int UserAC = getIntent().getIntExtra("UserAC", 0);
+
         // Get inputted ability scores
         int[] UserScore = getIntent().getIntArrayExtra("UserScore");
         int[] UserMod = getIntent().getIntArrayExtra("UserMod");
 
+        String UserArmor = getIntent().getStringExtra("UserArmor");
+        String UserWeapon = getIntent().getStringExtra("UserWeapon");
+
+        boolean[] UserSkills = getIntent().getBooleanArrayExtra("UserSkills");
+        String UserLanguage = getIntent().getStringExtra("UserLanguage");
+        String UserTool = getIntent().getStringExtra("UserTool");
+        String UserOtherWeapon = getIntent().getStringExtra("UserOtherWeapon");
+
         // Create completed character object
-        finishedCharacter = new CompletedCharacter(UserName, UserClass, UserArchetype, UserRace, UserSubRace, UserBackground, UserLevel, UserScore, UserMod);
+        finishedCharacter = new CompletedCharacter(UserName, UserClass, UserArchetype, UserRace, UserSubRace, UserBackground, UserLevel, UserScore, UserMod, UserSkills, UserLanguage, UserTool, UserOtherWeapon, UserHP, UserAC, UserArmor, UserWeapon);
 
     }
 

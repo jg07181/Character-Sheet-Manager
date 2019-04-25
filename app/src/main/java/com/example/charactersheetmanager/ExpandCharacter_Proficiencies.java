@@ -3,22 +3,26 @@ package com.example.charactersheetmanager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpandCharacter_Proficiencies extends AppCompatActivity {
 
-    private List ClassInfo, RaceInfo;
+    private List ClassInfo, RaceInfo, BackgroundInfo;
+    private String allLanguages, allTools, allOtherWeapons;
     private int level;
+
+    private EditText textLanguage, textTool, otherWeaponText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +34,52 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
         // Get intent values
         ClassInfo = getIntent().getStringArrayListExtra("ClassInfo");
         RaceInfo = getIntent().getStringArrayListExtra("RaceInfo");
+        BackgroundInfo = getIntent().getStringArrayListExtra("BackgroundInfo");
         level = getIntent().getIntExtra("level", 1);
 
-        // Set saving throw proficiencies as determined by the class
-        setSavingThrows(ClassInfo.get(3).toString());
+        textLanguage = findViewById(R.id.textLanguage);
+        textLanguage.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        textLanguage.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
-        // Set both armor and weapon proficiencies
-        setArmorAndWeaponProficiencies(ClassInfo, RaceInfo);
+        textTool = findViewById(R.id.textTool);
+        textTool.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        textTool.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
-        // Set languages
-        setLanguages(RaceInfo.get(9).toString());
+        otherWeaponText = findViewById(R.id.editText_Other_weapons);
+        otherWeaponText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        otherWeaponText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
-        // Set tools
-        if (RaceInfo.get(7) != null) {
-            setTools(RaceInfo.get(7).toString());
+        // Checks if the user clicked on a pre-existing character
+        if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+            ArrayList<String> CharacterInfo = getIntent().getStringArrayListExtra("CharacterInfo");
+
+            String preLanguage = CharacterInfo.get(10);
+            String preTool = CharacterInfo.get(11);
+            String preOtherWeapons = CharacterInfo.get(12);
+
+            textLanguage.setText(preLanguage);
+            textTool.setText(preTool);
+            otherWeaponText.setText(preOtherWeapons);
         }
 
         else {
-            setTools("None");
+            // Set saving throw proficiencies as determined by the class
+            setSavingThrows(ClassInfo.get(3).toString());
+
+            // Set both armor and weapon proficiencies
+            setArmorAndWeaponProficiencies(ClassInfo, RaceInfo);
+
+            // Set languages
+            if (BackgroundInfo.get(3) != null) {
+                setLanguages(RaceInfo.get(9).toString(), BackgroundInfo.get(3).toString());
+            }
+
+            else {
+                setLanguages(RaceInfo.get(9).toString(), "");
+            }
+
+            // Set tools
+            findTools();
         }
 
         // nextButton click handler
@@ -85,9 +117,46 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
                 intent.putExtra("UserBackground", getIntent().getStringExtra("UserBackground"));
                 intent.putExtra("UserScore", getIntent().getIntArrayExtra("UserScore"));
                 intent.putExtra("UserMod", getIntent().getIntArrayExtra("UserMod"));
+                intent.putExtra("UserSkills", getIntent().getBooleanArrayExtra("UserSkills"));
+                intent.putExtra("UserLanguage", allLanguages);
+                intent.putExtra("UserTool", allTools);
+                intent.putExtra("UserOtherWeapon", allOtherWeapons);
+                intent.putExtra("UserHP", getIntent().getIntExtra("UserHP", 0));
+                intent.putExtra("UserAC", getIntent().getIntExtra("UserAC", 0));
+                intent.putExtra("UserArmor", getIntent().getStringExtra("UserArmor"));
+                intent.putExtra("UserWeapon", getIntent().getStringExtra("UserWeapon"));
+
+                // Passes created character info if it exists
+                if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+                    intent.putExtra("CharacterInfo", getIntent().getStringArrayListExtra("CharacterInfo"));
+                }
 
                 startActivity(intent);
 
+            }
+        });
+
+        textLanguage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                allLanguages = textLanguage.getText().toString();
+                return false;
+            }
+        });
+
+        textTool.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                allTools = textTool.getText().toString();
+                return false;
+            }
+        });
+
+        otherWeaponText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                allOtherWeapons = otherWeaponText.getText().toString();
+                return false;
             }
         });
 
@@ -209,7 +278,6 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
         RadioButton simpleWeapons = findViewById(R.id.radio_Simple_Weapon);
         RadioButton martialWeapons = findViewById(R.id.radio_Martial_Weapon);
         RadioButton otherWeapons = findViewById(R.id.radio_Other_Weapon);
-        TextView otherWeaponText = findViewById(R.id.textView_Other_weapons);
 
         // Check class weapon proficiencies
         for (String aWeaponSet1 : weaponSet1) {
@@ -246,34 +314,115 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
             // Removes trailing comma from other weapons TextView
             String text = otherWeaponText.getText().toString().replaceAll("; $", "");
             otherWeaponText.setText(text);
-            otherWeaponText.setVisibility(View.VISIBLE);
+
+            allOtherWeapons = text;
+        }
+
+        else {
+            String none = "None";
+            otherWeaponText.setText(none);
+
+            allOtherWeapons = none;
         }
 
     }
 
-    private void setLanguages(String language) {
-        TextView textLanguage = findViewById(R.id.textLanguage);
-        String[] languages = language.split(",");
+    // Sets language proficiencies based on race and background
+    private void setLanguages(String raceLanguage, String backgroundLanguage) {
+        String[] languages = raceLanguage.split(",");
 
+        // Append race languages
         for (String language1 : languages) {
             textLanguage.append(language1 + ", ");
         }
 
+        // Append background languages
+        if (backgroundLanguage != null) {
+            textLanguage.append(backgroundLanguage);
+        }
+
+        // Delete trailing comma
         String text = textLanguage.getText().toString().replaceAll(", $", "");
         textLanguage.setText(text);
 
+        allLanguages = text;
+
     }
 
-    private void setTools(String tool) {
-        TextView textTool = findViewById(R.id.textTool);
-        String[] tools = tool.split(";");
-
-        for (String tool1 : tools) {
-            textTool.append(tool1 + ", ");
+    private void findTools() {
+        if (RaceInfo.get(7) != null && BackgroundInfo.get(4) != null && BackgroundInfo.get(5) != null) {
+            setTools(RaceInfo.get(7).toString(), BackgroundInfo.get(4).toString(), BackgroundInfo.get(5).toString());
         }
 
-        String text = textTool.getText().toString().replaceAll(", $", "");
-        textTool.setText(text);
+        else if (RaceInfo.get(7) != null && BackgroundInfo.get(4) != null) {
+            setTools(RaceInfo.get(7).toString(), BackgroundInfo.get(4).toString(), "");
+        }
+
+        else if (RaceInfo.get(7) == null && BackgroundInfo.get(4) != null && BackgroundInfo.get(5) != null) {
+            setTools("", BackgroundInfo.get(4).toString(), BackgroundInfo.get(5).toString());
+        }
+
+        else if (BackgroundInfo.get(4) != null) {
+            setTools("", BackgroundInfo.get(4).toString(), "");
+        }
+
+        else if (RaceInfo.get(7) != null) {
+            setTools(RaceInfo.get(7).toString(), "", "");
+        }
+
+        else {
+            setTools("", "", "");
+        }
+    }
+
+    // Sets tool proficiencies based on race, background, and class
+    private void setTools(String tool, String bgTool_1, String bgTool_2) {
+        String[] tools = tool.split(";");
+
+        // Append racial tools
+        for (String tool1 : tools) {
+            if (!tool1.equals("")) {
+                textTool.append(tool1 + ", ");
+            }
+
+        }
+
+        // Append first background tool
+        if (!bgTool_1.equals("")) {
+            textTool.append(bgTool_1);
+        }
+
+        // Append second background tool if any
+        if (!bgTool_2.equals("")) {
+            textTool.append(", " + bgTool_2);
+        }
+
+        // Append class tools if any
+        if (ClassInfo.get(8) != null) {
+            textTool.append(", " + ClassInfo.get(8).toString());
+        }
+
+        // If no tool proficiencies, then say "None"
+        if (textTool.getText().toString().equals("")) {
+            String none = "None";
+            textTool.setText(none);
+        }
+
+        // Escape apostrophes for sql statement
+        if (textTool.getText().toString().contains("'")) {
+            String escape = textTool.getText().toString().replace("'", "''");
+
+            // Delete trailing comma
+            allTools = escape.replaceAll(", $", "");
+        }
+
+        else {
+            // Delete trailing comma
+            String text = textTool.getText().toString().replaceAll(", $", "");
+            textTool.setText(text);
+
+            allTools = text;
+        }
 
     }
 

@@ -2,11 +2,14 @@ package com.example.charactersheetmanager;
 
 public class CompletedCharacter {
 
-    private String mName, mClass, mArchetype, mRace, mSubRace, mBackground;
-    private int mLevel;
+    private String mName, mClass, mArchetype, mRace, mSubRace, mBackground, mLanguage, mTool, mOtherWeapon, mArmor, mWeapon;
+    private int mLevel, mHP, mAC;
     private int[] mScore, mModifier;
+    private boolean[] mSkills;
 
-    public CompletedCharacter(String Name, String Class, String Archetype, String Race, String subRace, String Background, int Level, int[] Score, int[] Modifier) {
+    public CompletedCharacter(String Name, String Class, String Archetype, String Race, String subRace, String Background,
+                              int Level, int[] Score, int[] Modifier, boolean[] Skills, String Language, String Tool, String OtherWeapon,
+                              int HP, int AC, String Armor, String Weapon) {
         mName = Name;
         mClass = Class;
         mArchetype = Archetype;
@@ -16,6 +19,14 @@ public class CompletedCharacter {
         mLevel = Level;
         mScore = Score;
         mModifier = Modifier;
+        mSkills = Skills;
+        mLanguage = Language;
+        mTool = Tool;
+        mOtherWeapon = OtherWeapon;
+        mHP = HP;
+        mAC = AC;
+        mArmor = Armor;
+        mWeapon = Weapon;
     }
 
     public String getName() {
@@ -30,32 +41,16 @@ public class CompletedCharacter {
         return mClass;
     }
 
-    public void setClassName(String mClass) {
-        this.mClass = mClass;
-    }
-
     public String getArchetype() {
         return mArchetype;
-    }
-
-    public void setArchetype(String mArchetype) {
-        this.mArchetype = mArchetype;
     }
 
     public String getRace() {
         return mRace;
     }
 
-    public void setRace(String mRace) {
-        this.mRace = mRace;
-    }
-
     public String getSubRace() {
         return mSubRace;
-    }
-
-    public void setSubRace(String mSubRace) {
-        this.mSubRace = mSubRace;
     }
 
     public String getBackground() {
@@ -78,16 +73,40 @@ public class CompletedCharacter {
         return mScore;
     }
 
-    public void setScore(int[] mScore) {
-        this.mScore = mScore;
-    }
-
     public int[] getModifier() {
         return mModifier;
     }
 
-    public void setModifier(int[] mModifier) {
-        this.mModifier = mModifier;
+    public boolean[] getSkills() {
+        return mSkills;
+    }
+
+    public String getLanguage() {
+        return mLanguage;
+    }
+
+    public String getTool() {
+        return mTool;
+    }
+
+    public String getOtherWeapon() {
+        return mOtherWeapon;
+    }
+
+    public int getHP() {
+        return mHP;
+    }
+
+    public int getAC() {
+        return mAC;
+    }
+
+    public String getArmor() {
+        return mArmor;
+    }
+
+    public String getWeapon() {
+        return mWeapon;
     }
 
 }

@@ -43,7 +43,7 @@
 
             <TextView
                 android:id="@+id/ClassName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="viewStart"
@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/RaceName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="viewStart"
@@ -59,10 +59,10 @@
 
             <TextView
                 android:id="@+id/BackgroundName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAlignment="viewStart"
+                android:textAlignment="viewEnd"
                 android:textStyle="italic" />
 
         </LinearLayout>

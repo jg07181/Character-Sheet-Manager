@@ -143,10 +143,21 @@
                 </TableRow>
 
                 <TextView
-                    android:id="@+id/textView_Other_weapons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:text="Other Weapons"
                     android:textAlignment="center"
-                    android:visibility="gone" />
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editText_Other_weapons"
+                    android:inputType="textMultiLine"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:imeOptions="actionDone"/>
 
             </TableLayout>
         </LinearLayout>
@@ -174,7 +185,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:background="@null"
-                android:inputType="text"/>
+                android:inputType="textMultiLine"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 
@@ -201,7 +213,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:background="@null"
-                android:inputType="text"/>
+                android:inputType="textMultiLine"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 
@@ -210,7 +223,9 @@
             android:text="@string/nextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            style="@style/Widget.MaterialComponents.Button"/>
 
     </LinearLayout>
 </ScrollView>

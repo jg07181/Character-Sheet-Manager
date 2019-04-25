@@ -5,12 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,7 +16,7 @@ import java.util.List;
 public class ExpandCharacter_Skills extends AppCompatActivity {
 
     private CheckBox[] skills;
-    private List ClassInfo, RaceInfo;
+    private List ClassInfo, RaceInfo, BackgroundInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +39,62 @@ public class ExpandCharacter_Skills extends AppCompatActivity {
         // Finds all the IDs for the skill checkboxes
         findViewForSkills();
 
-        // Open connection to database
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter_Skills.this);
+        // Checks if the user clicked on a pre-existing character
+        if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+            ArrayList<String> CharacterInfo = getIntent().getStringArrayListExtra("CharacterInfo");
 
-        // Checks the appropriate skills as proficient as determined by the background
-        List backgroundInfo = databaseAccess.getBackgroundInfo(UserBackground);
-        setBackgroundProficiencies(backgroundInfo.get(1).toString(), backgroundInfo.get(2).toString());
+            // Parses string by removing brackets and splitting on ", "
+            String removeBrackets = CharacterInfo.get(9).replaceAll("\\[", "").replaceAll("]", "");
+            String[] parseString = removeBrackets.split(", ");
 
-        // Checks the appropriate skills as proficient as determined by the race or sub-race
-        if (UserSubRace.equals("None")) {
-            RaceInfo = databaseAccess.getRaceInfo(UserRace, false);
+            // Checks all pre-selected skills
+            for (int i = 0; i < skills.length; i++) {
+                if (parseString[i].equals("true") ) {
+                    skills[i].setChecked(true);
+                }
+            }
+
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter_Skills.this);
+            BackgroundInfo = databaseAccess.getBackgroundInfo(CharacterInfo.get(6));
+            ClassInfo = databaseAccess.getClassInfo(CharacterInfo.get(2));
+
+            if (CharacterInfo.get(5).equals("None")) {
+                RaceInfo = databaseAccess.getRaceInfo(CharacterInfo.get(4), false);
+            }
+
+            else {
+                RaceInfo = databaseAccess.getRaceInfo(CharacterInfo.get(5), true);
+            }
+
         }
 
+        // Assumes this character isn't saved to database
         else {
-            RaceInfo = databaseAccess.getRaceInfo(UserSubRace, true);
-        }
+            // Open connection to database
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ExpandCharacter_Skills.this);
 
-        // Checks race skills if any are present
-        if (RaceInfo.get(4) != null) {
-            setRaceProficiencies(RaceInfo.get(4).toString());
-        }
+            // Checks the appropriate skills as proficient as determined by the background
+            BackgroundInfo = databaseAccess.getBackgroundInfo(UserBackground);
+            setBackgroundProficiencies(BackgroundInfo.get(1).toString(), BackgroundInfo.get(2).toString());
 
-        // Parse and assign skill proficiencies as determined by the class
-        ClassInfo = databaseAccess.getClassInfo(UserClass);
-        setClassSkills(ClassInfo.get(7).toString());
+            // Checks the appropriate skills as proficient as determined by the race or sub-race
+            if (UserSubRace.equals("None")) {
+                RaceInfo = databaseAccess.getRaceInfo(UserRace, false);
+            }
+
+            else {
+                RaceInfo = databaseAccess.getRaceInfo(UserSubRace, true);
+            }
+
+            // Checks race skills if any are present
+            if (RaceInfo.get(4) != null) {
+                setRaceProficiencies(RaceInfo.get(4).toString());
+            }
+
+            // Parse and assign skill proficiencies as determined by the class
+            ClassInfo = databaseAccess.getClassInfo(UserClass);
+            setClassSkills(ClassInfo.get(7).toString());
+        }
 
         // nextButton click handler
         Button nextButton = findViewById(R.id.nextButton);
@@ -78,6 +107,7 @@ public class ExpandCharacter_Skills extends AppCompatActivity {
 
                 intent.putStringArrayListExtra("ClassInfo", (ArrayList<String>) ClassInfo);
                 intent.putStringArrayListExtra("RaceInfo", (ArrayList<String>) RaceInfo);
+                intent.putStringArrayListExtra("BackgroundInfo", (ArrayList<String>) BackgroundInfo);
 
                 // Stores all user skills into boolean array
                 boolean[] UserSkills = new boolean[skills.length];
@@ -96,6 +126,11 @@ public class ExpandCharacter_Skills extends AppCompatActivity {
                 intent.putExtra("UserRace", UserRace);
                 intent.putExtra("UserSubRace", UserSubRace);
                 intent.putExtra("UserBackground", UserBackground);
+
+                // Passes created character info if it exists
+                if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
+                    intent.putExtra("CharacterInfo", getIntent().getStringArrayListExtra("CharacterInfo"));
+                }
 
                 startActivity(intent);
             }

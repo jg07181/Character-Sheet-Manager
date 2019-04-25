@@ -25,7 +25,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Character Name"
+                    android:text="@string/textName"
                     android:textColor="#6386bf"
                     android:textSize="16sp" />
 
@@ -52,7 +52,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Level"
+                    android:text="@string/textLevel"
                     android:textColor="#6386bf"
                     android:textSize="16sp"
                     android:textAlignment="center" />
@@ -95,7 +95,7 @@
 
                 <EditText
                     android:id="@+id/experience"
-                    android:hint="0"
+                    android:hint="@string/editTextExp"
                     android:inputType="number"
                     android:textAlignment="center"
                     android:maxLines="1"
@@ -150,7 +150,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Class"
+                    android:text="@string/textClass"
                     android:textColor="#6386bf"
                     android:textSize="16sp"
                     android:layout_margin="10dp"/>
@@ -171,7 +171,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Archetype"
+                    android:text="@string/textArchetype"
                     android:textColor="#6386bf"
                     android:textSize="16sp"
                     android:layout_margin="10dp"/>
@@ -194,7 +194,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Race"
+                    android:text="@string/textRace"
                     android:textColor="#6386bf"
                     android:textSize="16sp"
                     android:layout_margin="10dp"/>
@@ -215,7 +215,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Subrace"
+                    android:text="@string/textSubRace"
                     android:textColor="#6386bf"
                     android:textSize="16sp"
                     android:layout_margin="10dp"/>
@@ -238,7 +238,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background"
+                    android:text="@string/textBackground"
                     android:textColor="#6386bf"
                     android:textSize="16sp"
                     android:layout_margin="10dp"/>
@@ -258,7 +258,9 @@
             android:text="@string/nextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            style="@style/Widget.MaterialComponents.Button"/>
 
     </LinearLayout>
 </ScrollView>

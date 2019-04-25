@@ -15,14 +15,21 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
     private List<CharacterFragment> listCharacters;
     private Context context;
     private onItemClickListener mListener;
+    private onItemLongClickListener mListenerLong;
 
     public interface onItemClickListener {
-        void  onItemClick(int position);
+        void onItemClick(int position);
+    }
+
+    public interface onItemLongClickListener {
+        boolean onItemLongClick(int position);
     }
 
     public void setOnItemClickedListener(onItemClickListener listener) {
         mListener = listener;
     }
+
+    public void setOnItemLongClickedListener(onItemLongClickListener listener) {mListenerLong = listener;}
 
     public CharacterListAdapter(List<CharacterFragment> listCharacters, Context context) {
         this.listCharacters = listCharacters;
@@ -33,7 +40,7 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_character_fragment,parent,false);
-        return new ViewHolder(view, mListener);
+        return new ViewHolder(view, mListener, mListenerLong);
     }
 
     @Override
@@ -61,7 +68,7 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         public TextView tvClass;
         public TextView tvBackground;
 
-        public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView, final onItemClickListener listener, final onItemLongClickListener listenerLong) {
             super(itemView);
             tvName = itemView.findViewById(R.id.CharacterName);
             tvLevel = itemView.findViewById(R.id.LevelText);
@@ -79,6 +86,20 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
                         }
                     }
 
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (listenerLong != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listenerLong.onItemLongClick(position);
+                            return true;
+                        }
+                    }
+                    return false;
                 }
             });
         }
