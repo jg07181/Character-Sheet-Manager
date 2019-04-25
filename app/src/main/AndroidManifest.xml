@@ -3,13 +3,16 @@
     package="com.example.charactersheetmanager">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ExpandCharacter"></activity>
+        <activity android:name=".ExpandCharacter_Scores"></activity>
+        <activity android:name=".ExpandCharacter_Proficiencies" />
+        <activity android:name=".ExpandCharacter_Abilities" />
+        <activity android:name=".ExpandCharacter_Skills" />
         <activity android:name=".CreateCharacter" />
         <activity android:name=".CharacterList">
             <intent-filter>

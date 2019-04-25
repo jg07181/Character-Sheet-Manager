@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/border">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hit Points"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/textHP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Armor Class"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/textAC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:inputType="number"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/border">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Initiative"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/textInitiative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:inputType="number"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:stretchColumns="*">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ability Scores"
+                    android:textAlignment="center"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TableRow android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/textStrength"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="@string/textStrength" />
+
+                    <TextView
+                        android:id="@+id/textDexterity"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="@string/textDexterity" />
+
+                    <TextView
+                        android:id="@+id/textConstitution"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="@string/textConstitution" />
+                </TableRow>
+
+                <TableRow>
+                    <EditText
+                        android:id="@+id/inputStrength"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/inputStrength"
+                        android:imeOptions="actionDone"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/inputDexterity"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/inputDexterity"
+                        android:imeOptions="actionDone"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/inputConstitution"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/inputConstitution"
+                        android:imeOptions="actionDone"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:id="@+id/textIntelligence"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="@string/textIntelligence" />
+
+                    <TextView
+                        android:id="@+id/textWisdom"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="@string/textWisdom" />
+
+                    <TextView
+                        android:id="@+id/textCharisma"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="@string/textCharisma" />
+                </TableRow>
+
+                <TableRow>
+                    <EditText
+                        android:id="@+id/inputIntelligence"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/inputIntelligence"
+                        android:imeOptions="actionDone"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/inputWisdom"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/inputWisdom"
+                        android:imeOptions="actionDone"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/inputCharisma"
+                        android:gravity="center_horizontal"
+                        android:hint="@string/inputCharisma"
+                        android:imeOptions="actionDone"
+                        android:inputType="number" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border"
+                android:stretchColumns="*">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ability Modifiers"
+                    android:textAlignment="center"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TableRow
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="Str" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="Dex" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="Con" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="Int" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="Wis" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="Cha" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:id="@+id/textStrengthMod"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textDexterityMod"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textConstitutionMod"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textIntelligenceMod"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textWisdomMod"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textCharismaMod"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Armor"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerArmor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Armor Type"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textArmorType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weapon"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerWeapon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weapon Type"
+                        android:textColor="#6386bf"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textWeaponType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Damage"
+                        android:textColor="#6386bf"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textWeaponDamage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Properties"
+                    android:textColor="#6386bf"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textWeaponProperties"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:text="@string/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            style="@style/Widget.MaterialComponents.Button"/>
+
+    </LinearLayout>
+</ScrollView>
