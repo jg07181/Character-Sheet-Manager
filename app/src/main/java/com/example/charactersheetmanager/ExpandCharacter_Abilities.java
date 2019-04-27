@@ -69,7 +69,9 @@ public class ExpandCharacter_Abilities extends AppCompatActivity {
 
                 // Updates existing character
                 if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
-                    databaseAccess.updateCharacter(finishedCharacter);
+
+                    String id = getIntent().getStringArrayListExtra("CharacterInfo").get(19);
+                    databaseAccess.updateCharacter(finishedCharacter, id);
                     Toast.makeText(ExpandCharacter_Abilities.this, "Character updated!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -112,7 +114,7 @@ public class ExpandCharacter_Abilities extends AppCompatActivity {
 
         }
 
-        RecyclerView.Adapter adapter = new AbilityListAdapter(abilityList, this);
+        RecyclerView.Adapter adapter = new AbilityListAdapter(abilityList);
         recyclerView.setAdapter(adapter);
     }
 
@@ -142,9 +144,12 @@ public class ExpandCharacter_Abilities extends AppCompatActivity {
         String UserLanguage = getIntent().getStringExtra("UserLanguage");
         String UserTool = getIntent().getStringExtra("UserTool");
         String UserOtherWeapon = getIntent().getStringExtra("UserOtherWeapon");
+        boolean[] UserSaves = getIntent().getBooleanArrayExtra("UserSaves");
+        boolean[] UserWeaponArmor = getIntent().getBooleanArrayExtra("UserWeaponArmor");
 
         // Create completed character object
-        finishedCharacter = new CompletedCharacter(UserName, UserClass, UserArchetype, UserRace, UserSubRace, UserBackground, UserLevel, UserScore, UserMod, UserSkills, UserLanguage, UserTool, UserOtherWeapon, UserHP, UserAC, UserArmor, UserWeapon);
+        finishedCharacter = new CompletedCharacter(UserName, UserClass, UserArchetype, UserRace, UserSubRace, UserBackground, UserLevel, UserScore, UserMod, UserSkills,
+                                UserLanguage, UserTool, UserOtherWeapon, UserHP, UserAC, UserArmor, UserWeapon, UserSaves, UserWeaponArmor);
 
     }
 

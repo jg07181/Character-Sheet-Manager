@@ -1,6 +1,5 @@
 package com.example.charactersheetmanager;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,11 +12,9 @@ import java.util.List;
 public class AbilityListAdapter extends RecyclerView.Adapter<AbilityListAdapter.ViewHolder> {
 
     private List<AbilityFragment> listAbilities;
-    private Context context;
 
-    public AbilityListAdapter(List<AbilityFragment> listAbilities, Context context) {
+    AbilityListAdapter(List<AbilityFragment> listAbilities) {
         this.listAbilities = listAbilities;
-        this.context = context;
     }
 
     @NonNull
@@ -54,13 +51,13 @@ public class AbilityListAdapter extends RecyclerView.Adapter<AbilityListAdapter.
         return listAbilities.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tvTitle;
-        public TextView tvDescription;
-        public TextView tvLevel;
+        TextView tvTitle;
+        TextView tvDescription;
+        TextView tvLevel;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.abilityTitle);
             tvDescription = itemView.findViewById(R.id.abilityDescription);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DatabaseAccess {
+class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase db;
     private static DatabaseAccess instance;
@@ -20,7 +20,7 @@ public class DatabaseAccess {
     }
 
     // Returns singleton instance of DatabaseAccess
-    public static DatabaseAccess getInstance(Context context) {
+    static DatabaseAccess getInstance(Context context) {
         if (instance == null) {
             instance = new DatabaseAccess(context);
         }
@@ -28,18 +28,11 @@ public class DatabaseAccess {
     }
 
     // Open database connection
-    public void open() {
+    void open() {
         this.db = openHelper.getWritableDatabase();
     }
 
-    // Close database connection
-    public void close() {
-        if (db != null) {
-            this.db.close();
-        }
-    }
-
-    public String[] getList (String table) {
+    String[] getList(String table) {
         Cursor c;
 
         if (table.equals("Armor") || table.equals("Weapon")) {
@@ -67,7 +60,7 @@ public class DatabaseAccess {
         return completeList;
     }
 
-    public String[] getSubRace (String race) {
+    String[] getSubRace(String race) {
         Cursor c = db.rawQuery("SELECT sub_name FROM Race WHERE name = '" + race + "' ORDER BY sub_name ASC", null);
         ArrayList<String> list = new ArrayList<>();
 
@@ -90,7 +83,7 @@ public class DatabaseAccess {
         return completeList;
     }
 
-    public List getClassInfo (String Class) {
+    List getClassInfo(String Class) {
         Cursor c = db.rawQuery("SELECT * FROM Class WHERE name = '" + Class + "'", null);
 
         List<String> values = new ArrayList<>();
@@ -111,7 +104,7 @@ public class DatabaseAccess {
         return values;
     }
 
-    public String[] getClassAbilities (String Class, int level) {
+    String[] getClassAbilities(String Class, int level) {
         Cursor c = db.rawQuery("SELECT features FROM " + Class + " WHERE level >= 1 AND level <= " + level + " ORDER BY level", null);
         ArrayList<String> list = new ArrayList<>();
 
@@ -130,7 +123,7 @@ public class DatabaseAccess {
         return featureList;
     }
 
-    public String[] getClassDescriptions (String  Class, int level) {
+    String[] getClassDescriptions(String Class, int level) {
         Cursor c = db.rawQuery("SELECT description FROM " + Class + " WHERE level >= 1 AND level <= " + level + " ORDER BY level", null);
         ArrayList<String> list = new ArrayList<>();
 
@@ -149,7 +142,7 @@ public class DatabaseAccess {
         return featureList;
     }
 
-    public int[] getClassLevels(String Class, int level) {
+    int[] getClassLevels(String Class, int level) {
         Cursor c = db.rawQuery("SELECT level FROM " + Class + " WHERE level >= 1 AND level <= " + level + " ORDER BY level", null);
         ArrayList<Integer> list = new ArrayList<>();
 
@@ -171,7 +164,7 @@ public class DatabaseAccess {
         return levelList;
     }
 
-    public String[] getArchetypeList(String Class) {
+    String[] getArchetypeList(String Class) {
         Cursor c = db.rawQuery("SELECT archetype FROM Class WHERE name = '" + Class + "' ORDER BY archetype ASC", null);
 
         c.moveToFirst();
@@ -181,7 +174,7 @@ public class DatabaseAccess {
         return values;
     }
 
-    public List getRaceInfo (String Race, boolean isSubRace) {
+    List getRaceInfo(String Race, boolean isSubRace) {
         Cursor c;
 
         // Checks is the the selected race has a subrace or not
@@ -215,7 +208,7 @@ public class DatabaseAccess {
         return values;
     }
 
-    public List getBackgroundInfo (String Background) {
+    List getBackgroundInfo(String Background) {
         Cursor c = db.rawQuery("SELECT * FROM Background WHERE name = '" + Background + "'", null);
 
         List<String> values = new ArrayList<>();
@@ -233,7 +226,7 @@ public class DatabaseAccess {
         return values;
     }
 
-    public List getArmorInfo (String Armor) {
+    List getArmorInfo(String Armor) {
         Cursor c = db.rawQuery("SELECT * FROM Armor WHERE name = '" + Armor + "'", null);
 
         List<String> values = new ArrayList<>();
@@ -252,7 +245,7 @@ public class DatabaseAccess {
         return values;
     }
 
-    public List getWeaponInfo (String Weapon) {
+    List getWeaponInfo(String Weapon) {
         Cursor c = db.rawQuery("SELECT * FROM Weapon WHERE name = '" + Weapon + "'", null);
 
         List<String> values = new ArrayList<>();
@@ -271,8 +264,9 @@ public class DatabaseAccess {
         return values;
     }
 
-    public void saveCharacter(CompletedCharacter character) {
-        String Name = character.getName(),
+    // Save a newly created character
+    void saveCharacter(CompletedCharacter character) {
+        String  Name = character.getName(),
                 Class = character.getClassName(),
                 Archetype = character.getArchetype(),
                 Race = character.getRace(),
@@ -291,17 +285,20 @@ public class DatabaseAccess {
         int[] Score = character.getScore(),
                 Modifier = character.getModifier();
 
-        boolean[] skills = character.getSkills();
+        boolean[] skills = character.getSkills(),
+                  saves = character.getSaves(),
+                  weaponArmor = character.getWeaponArmor();
 
-        Cursor c = db.rawQuery("INSERT INTO completedCharacter (name, level, class, archetype, race, subrace, background, abilities, modifiers, skills, language, tool, weapon, hp, ac, current_armor, current_weapon) VALUES " +
-                "('" + Name + "','" + Level + "','" + Class + "','" + Archetype + "','" + Race + "','" + SubRace + "','" + Background + "','" + Arrays.toString(Score) + "','" + Arrays.toString(Modifier) + "','" + Arrays.toString(skills) + "','" + Language + "','" + Tool + "','" + OtherWeapon + "','" + HP + "','" + AC + "','" + Armor + "','" + Weapon + "')", null);
+        Cursor c = db.rawQuery("INSERT INTO completedCharacter (name, level, class, archetype, race, subrace, background, abilities, modifiers, skills, language, tool, weapon, hp, ac, current_armor, current_weapon, saving_throws, weapon_armor_prof) VALUES " +
+                "('" + Name + "','" + Level + "','" + Class + "','" + Archetype + "','" + Race + "','" + SubRace + "','" + Background + "','" + Arrays.toString(Score) + "','" + Arrays.toString(Modifier) + "','" + Arrays.toString(skills) + "','" + Language + "','" + Tool + "','" + OtherWeapon + "','" + HP + "','" + AC + "','" + Armor + "','" + Weapon + "','" + Arrays.toString(saves) + "','" + Arrays.toString(weaponArmor) + "')", null);
 
         c.moveToNext();
         c.close();
     }
 
-    public void updateCharacter(CompletedCharacter character) {
-        String Name = character.getName(),
+    // Update an existing character
+    void updateCharacter(CompletedCharacter character, String id) {
+        String  Name = character.getName(),
                 Class = character.getClassName(),
                 Archetype = character.getArchetype(),
                 Race = character.getRace(),
@@ -320,16 +317,18 @@ public class DatabaseAccess {
         int[] Score = character.getScore(),
                 Modifier = character.getModifier();
 
-        boolean[] skills = character.getSkills();
+        boolean[] skills = character.getSkills(),
+                    saves = character.getSaves(),
+                    weaponArmor = character.getWeaponArmor();
 
-        Cursor c = db.rawQuery("UPDATE completedCharacter SET name = '" + Name + "', level = '" + Level + "', class = '" + Class + "', archetype = '" + Archetype + "', race = '" + Race + "', subrace = '"  + SubRace + "', background = '" + Background + "', abilities = '" + Arrays.toString(Score) + "', modifiers = '" + Arrays.toString(Modifier) + "', skills = '" + Arrays.toString(skills) + "', language = '" + Language + "', tool = '" + Tool + "', weapon = '" + OtherWeapon + "', hp = '" + HP + "', ac = '" + AC + "', current_armor = '" + Armor + "', current_weapon = '" + Weapon + "' " +
-                "WHERE name = '" + Name + "' AND class = '" + Class + "' AND race = '" + Race + "' AND subrace = '" + SubRace + "' AND background = '" + Background + "'", null);
+        Cursor c = db.rawQuery("UPDATE completedCharacter SET name = '" + Name + "', level = '" + Level + "', class = '" + Class + "', archetype = '" + Archetype + "', race = '" + Race + "', subrace = '"  + SubRace + "', background = '" + Background + "', abilities = '" + Arrays.toString(Score) + "', modifiers = '" + Arrays.toString(Modifier) + "', skills = '" + Arrays.toString(skills) + "', language = '" + Language + "', tool = '" + Tool + "', weapon = '" + OtherWeapon + "', hp = '" + HP + "', ac = '" + AC + "', current_armor = '" + Armor + "', current_weapon = '" + Weapon + "', saving_throws = '" + Arrays.toString(saves) + "', weapon_armor_prof = '" + Arrays.toString(weaponArmor) + "'" +
+                "WHERE id = '" + id + "'", null);
 
         c.moveToNext();
         c.close();
     }
 
-    public List<String> checkDatabase(String column) {
+    List<String> checkDatabase(String column) {
         Cursor c = db.rawQuery("SELECT " + column + " FROM completedCharacter", null);
         List<String> value = new ArrayList<>();
 
@@ -344,14 +343,16 @@ public class DatabaseAccess {
         return value;
     }
 
-    public void removeCharacter(String Name, String Class, String Race, String SubRace, String Background) {
-        Cursor c = db.rawQuery("DELETE FROM completedCharacter WHERE name = '" + Name + "' AND class = '" + Class + "' AND race = '" + Race + "' AND subrace = '" + SubRace + "' AND background = '" + Background + "'", null);
+    // Remove an existing character
+    void removeCharacter(String id) {
+        Cursor c = db.rawQuery("DELETE FROM completedCharacter WHERE id = '" + id + "'", null);
         c.moveToFirst();
         c.close();
     }
 
-    public List getCharacter(String Name, String Class, String Race, String SubRace, String Background) {
-        Cursor c = db.rawQuery("SELECT * FROM completedCharacter WHERE name = '" + Name + "' AND class = '" + Class + "' AND race = '" + Race + "' AND subrace = '" + SubRace + "' AND background = '" + Background + "'", null);
+    // Get all information on a saved character
+    List getCharacter(String id) {
+        Cursor c = db.rawQuery("SELECT * FROM completedCharacter WHERE id = '" + id + "'", null);
         List<String> values = new ArrayList<>();
         c.moveToFirst();
 
@@ -373,6 +374,9 @@ public class DatabaseAccess {
         values.add(c.getString(14)); // AC
         values.add(c.getString(15)); // Current Armor
         values.add(c.getString(16)); // Current Weapon
+        values.add(c.getString(17)); // Saving Throws
+        values.add(c.getString(18)); // Weapon and Armor prof
+        values.add(c.getString(19)); // ID
 
         c.close();
         return values;

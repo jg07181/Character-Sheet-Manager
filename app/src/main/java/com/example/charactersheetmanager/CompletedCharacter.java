@@ -5,11 +5,11 @@ public class CompletedCharacter {
     private String mName, mClass, mArchetype, mRace, mSubRace, mBackground, mLanguage, mTool, mOtherWeapon, mArmor, mWeapon;
     private int mLevel, mHP, mAC;
     private int[] mScore, mModifier;
-    private boolean[] mSkills;
+    private boolean[] mSkills, mSaves, mWeaponArmor;
 
-    public CompletedCharacter(String Name, String Class, String Archetype, String Race, String subRace, String Background,
-                              int Level, int[] Score, int[] Modifier, boolean[] Skills, String Language, String Tool, String OtherWeapon,
-                              int HP, int AC, String Armor, String Weapon) {
+    CompletedCharacter(String Name, String Class, String Archetype, String Race, String subRace, String Background,
+                       int Level, int[] Score, int[] Modifier, boolean[] Skills, String Language, String Tool, String OtherWeapon,
+                       int HP, int AC, String Armor, String Weapon, boolean[] Saves, boolean[] WeaponArmor) {
         mName = Name;
         mClass = Class;
         mArchetype = Archetype;
@@ -27,6 +27,8 @@ public class CompletedCharacter {
         mAC = AC;
         mArmor = Armor;
         mWeapon = Weapon;
+        mSaves = Saves;
+        mWeaponArmor = WeaponArmor;
     }
 
     public String getName() {
@@ -37,11 +39,11 @@ public class CompletedCharacter {
         this.mName = mName;
     }
 
-    public String getClassName() {
+    String getClassName() {
         return mClass;
     }
 
-    public String getArchetype() {
+    String getArchetype() {
         return mArchetype;
     }
 
@@ -49,7 +51,7 @@ public class CompletedCharacter {
         return mRace;
     }
 
-    public String getSubRace() {
+    String getSubRace() {
         return mSubRace;
     }
 
@@ -69,44 +71,52 @@ public class CompletedCharacter {
         this.mLevel = mLevel;
     }
 
-    public int[] getScore() {
+    int[] getScore() {
         return mScore;
     }
 
-    public int[] getModifier() {
+    int[] getModifier() {
         return mModifier;
     }
 
-    public boolean[] getSkills() {
+    boolean[] getSkills() {
         return mSkills;
     }
 
-    public String getLanguage() {
+    String getLanguage() {
         return mLanguage;
     }
 
-    public String getTool() {
+    String getTool() {
         return mTool;
     }
 
-    public String getOtherWeapon() {
+    String getOtherWeapon() {
         return mOtherWeapon;
     }
 
-    public int getHP() {
+    int getHP() {
         return mHP;
     }
 
-    public int getAC() {
+    int getAC() {
         return mAC;
     }
 
-    public String getArmor() {
+    String getArmor() {
         return mArmor;
     }
 
-    public String getWeapon() {
+    String getWeapon() {
         return mWeapon;
+    }
+
+    boolean[] getSaves() {
+        return mSaves;
+    }
+
+    boolean[] getWeaponArmor() {
+        return mWeaponArmor;
     }
 
 }

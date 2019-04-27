@@ -2,16 +2,18 @@ package com.example.charactersheetmanager;
 
 public class CharacterFragment {
     private String CharacterName, Level, Race, CharacterClass, Background;
+    private String ID;
 
-    public CharacterFragment(String characterName, String level, String race, String characterClass, String background) {
+    CharacterFragment(String characterName, String level, String race, String characterClass, String background, String id) {
         CharacterName = characterName;
         Level = level;
         Race = race;
         CharacterClass = characterClass;
         Background = background;
+        ID = id;
     }
 
-    public String getCharacterName() {
+    String getCharacterName() {
         return CharacterName;
     }
 
@@ -23,11 +25,13 @@ public class CharacterFragment {
         return Race;
     }
 
-    public String getCharacterClass() {
+    String getCharacterClass() {
         return CharacterClass;
     }
 
     public String getBackground() {
         return Background;
     }
+
+    public String getID() {return ID;}
 }

@@ -1,6 +1,5 @@
 package com.example.charactersheetmanager;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import java.util.List;
 public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdapter.ViewHolder> {
 
     private List<CharacterFragment> listCharacters;
-    private Context context;
     private onItemClickListener mListener;
     private onItemLongClickListener mListenerLong;
 
@@ -22,24 +20,23 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
     }
 
     public interface onItemLongClickListener {
-        boolean onItemLongClick(int position);
+        void onItemLongClick(int position);
     }
 
-    public void setOnItemClickedListener(onItemClickListener listener) {
+    void setOnItemClickedListener(onItemClickListener listener) {
         mListener = listener;
     }
 
-    public void setOnItemLongClickedListener(onItemLongClickListener listener) {mListenerLong = listener;}
+    void setOnItemLongClickedListener(onItemLongClickListener listener) {mListenerLong = listener;}
 
-    public CharacterListAdapter(List<CharacterFragment> listCharacters, Context context) {
+    CharacterListAdapter(List<CharacterFragment> listCharacters) {
         this.listCharacters = listCharacters;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_character_fragment,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_character_fragment, parent,false);
         return new ViewHolder(view, mListener, mListenerLong);
     }
 
@@ -47,6 +44,7 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         CharacterFragment characterFragment = listCharacters.get(i);
 
+        viewHolder.id = characterFragment.getID();
         viewHolder.tvName.setText(characterFragment.getCharacterName());
         viewHolder.tvLevel.setText(characterFragment.getLevel());
         viewHolder.tvRace.setText(characterFragment.getRace());
@@ -60,15 +58,16 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         return listCharacters.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tvName;
-        public TextView tvLevel;
-        public TextView tvRace;
-        public TextView tvClass;
-        public TextView tvBackground;
+        String id;
+        TextView tvName;
+        TextView tvLevel;
+        TextView tvRace;
+        TextView tvClass;
+        TextView tvBackground;
 
-        public ViewHolder(@NonNull View itemView, final onItemClickListener listener, final onItemLongClickListener listenerLong) {
+        ViewHolder(@NonNull View itemView, final onItemClickListener listener, final onItemLongClickListener listenerLong) {
             super(itemView);
             tvName = itemView.findViewById(R.id.CharacterName);
             tvLevel = itemView.findViewById(R.id.LevelText);

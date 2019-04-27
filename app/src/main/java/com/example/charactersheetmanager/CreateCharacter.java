@@ -2,7 +2,6 @@ package com.example.charactersheetmanager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,15 +18,14 @@ import java.util.ArrayList;
 
 public class CreateCharacter extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText characterName, level;
+    private EditText level;
     private Spinner chooseClass, chooseArchetype, chooseRace, chooseSubRace, chooseBackground;
     private String Table;
 
     // Character variables
     private String UserName;
-    private int UserLevel;
-    private int experience, proficiency;
-    private String preName, preLevel, preClass, preArchetype, preRace, preSubRace, preBackground;
+    private int UserLevel, experience, proficiency;
+    private String preClass, preArchetype, preRace, preSubRace, preBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
         final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(CreateCharacter.this);
         databaseAccess.open();
 
-        characterName = findViewById(R.id.characterName);
+        EditText characterName = findViewById(R.id.characterName);
         level = findViewById(R.id.level);
 
         // Checks if the user clicked on a pre-existing character
@@ -46,8 +44,8 @@ public class CreateCharacter extends AppCompatActivity implements AdapterView.On
             ArrayList<String> CharacterInfo = getIntent().getStringArrayListExtra("CharacterInfo");
 
             // Gathers all character information relevant to this activity
-            preName = CharacterInfo.get(0);
-            preLevel = CharacterInfo.get(1);
+            String preName = CharacterInfo.get(0);
+            String preLevel = CharacterInfo.get(1);
             preClass = CharacterInfo.get(2);
             preArchetype = CharacterInfo.get(3);
             preRace = CharacterInfo.get(4);

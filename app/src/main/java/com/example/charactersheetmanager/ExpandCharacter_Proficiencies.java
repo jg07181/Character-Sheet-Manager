@@ -20,9 +20,12 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
 
     private List ClassInfo, RaceInfo, BackgroundInfo;
     private String allLanguages, allTools, allOtherWeapons;
-    private int level;
-
+    private CheckBox saveStr, saveDex, saveCon, saveInt, saveWis, saveCha;
+    private CheckBox[] saves;
+    private RadioButton lightArmor, mediumArmor, heavyArmor, shield, simpleWeapons, martialWeapons, otherWeapons;
+    private RadioButton[] allWeaponArmors;
     private EditText textLanguage, textTool, otherWeaponText;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +40,43 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
         BackgroundInfo = getIntent().getStringArrayListExtra("BackgroundInfo");
         level = getIntent().getIntExtra("level", 1);
 
-        textLanguage = findViewById(R.id.textLanguage);
-        textLanguage.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        textLanguage.setRawInputType(InputType.TYPE_CLASS_TEXT);
-
-        textTool = findViewById(R.id.textTool);
-        textTool.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        textTool.setRawInputType(InputType.TYPE_CLASS_TEXT);
-
-        otherWeaponText = findViewById(R.id.editText_Other_weapons);
-        otherWeaponText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        otherWeaponText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        findAllViews();
 
         // Checks if the user clicked on a pre-existing character
         if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
             ArrayList<String> CharacterInfo = getIntent().getStringArrayListExtra("CharacterInfo");
+
+            // Parses string by removing brackets and splitting on ", "
+            String removeBracketsSaves = CharacterInfo.get(17).replaceAll("\\[", "").replaceAll("]", "");
+            String removeBracketsWeaponArmor = CharacterInfo.get(18).replaceAll("\\[", "").replaceAll("]", "");
+
+            String[] parseStringSaves = removeBracketsSaves.split(", ");
+            String[] parseStringWeaponArmor = removeBracketsWeaponArmor.split(", ");
+
+            for (int i = 0; i < saves.length; i++) {
+                if (parseStringSaves[i].equals("true")) {
+                    saves[i].setChecked(true);
+                }
+            }
+
+            for (int i = 0; i < allWeaponArmors.length; i++) {
+                if (parseStringWeaponArmor[i].equals("true")) {
+                    allWeaponArmors[i].setChecked(true);
+                }
+            }
 
             String preLanguage = CharacterInfo.get(10);
             String preTool = CharacterInfo.get(11);
             String preOtherWeapons = CharacterInfo.get(12);
 
             textLanguage.setText(preLanguage);
+            allLanguages = preLanguage;
+
             textTool.setText(preTool);
+            allTools = preTool;
+
             otherWeaponText.setText(preOtherWeapons);
+            allOtherWeapons = preOtherWeapons;
         }
 
         else {
@@ -104,10 +121,9 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
                 String[] abilityDesc = databaseAccess.getClassDescriptions(ClassInfo.get(0).toString(), level);
                 intent.putExtra("descriptions", abilityDesc);
 
-                // Get int array of ability levels
+                // Get all intents
                 int[] abilityLevel = databaseAccess.getClassLevels(ClassInfo.get(0).toString(), level);
                 intent.putExtra("levels", abilityLevel);
-
                 intent.putExtra("UserName", getIntent().getStringExtra("UserName"));
                 intent.putExtra("UserLevel", level);
                 intent.putExtra("UserClass", getIntent().getStringExtra("UserClass"));
@@ -126,6 +142,20 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
                 intent.putExtra("UserArmor", getIntent().getStringExtra("UserArmor"));
                 intent.putExtra("UserWeapon", getIntent().getStringExtra("UserWeapon"));
 
+                boolean[] UserSaves = new boolean[saves.length];
+                boolean[] UserWeaponArmor = new boolean[allWeaponArmors.length];
+
+                for (int i = 0; i < saves.length; i++) {
+                    UserSaves[i] = saves[i].isChecked();
+                }
+
+                for (int i = 0; i < allWeaponArmors.length; i++) {
+                    UserWeaponArmor[i] = allWeaponArmors[i].isChecked();
+                }
+
+                intent.putExtra("UserSaves", UserSaves);
+                intent.putExtra("UserWeaponArmor", UserWeaponArmor);
+
                 // Passes created character info if it exists
                 if (getIntent().getStringArrayListExtra("CharacterInfo") != null) {
                     intent.putExtra("CharacterInfo", getIntent().getStringArrayListExtra("CharacterInfo"));
@@ -140,7 +170,7 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 allLanguages = textLanguage.getText().toString();
-                return false;
+                return true;
             }
         });
 
@@ -148,7 +178,7 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 allTools = textTool.getText().toString();
-                return false;
+                return true;
             }
         });
 
@@ -156,32 +186,61 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 allOtherWeapons = otherWeaponText.getText().toString();
-                return false;
+                return true;
             }
         });
 
     }
 
+    // Find all the view ids for each widget
+    private void findAllViews() {
+        saveStr = findViewById(R.id.checkbox_Str_Save);
+        saveDex = findViewById(R.id.checkbox_Dex_Save);
+        saveCon = findViewById(R.id.checkbox_Con_Save);
+        saveInt = findViewById(R.id.checkbox_Int_Save);
+        saveWis = findViewById(R.id.checkbox_Wis_Save);
+        saveCha = findViewById(R.id.checkbox_Cha_Save);
+
+        textLanguage = findViewById(R.id.textLanguage);
+        textLanguage.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        textLanguage.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        textTool = findViewById(R.id.textTool);
+        textTool.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        textTool.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        otherWeaponText = findViewById(R.id.editText_Other_weapons);
+        otherWeaponText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        otherWeaponText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        lightArmor = findViewById(R.id.radio_Light_Armor);
+        mediumArmor = findViewById(R.id.radio_Medium_Armor);
+        heavyArmor = findViewById(R.id.radio_Heavy_Armor);
+        shield = findViewById(R.id.radio_Shield);
+
+        simpleWeapons = findViewById(R.id.radio_Simple_Weapon);
+        martialWeapons = findViewById(R.id.radio_Martial_Weapon);
+        otherWeapons = findViewById(R.id.radio_Other_Weapon);
+
+        saves = new CheckBox[]{saveStr, saveDex, saveCon, saveInt, saveWis, saveCha};
+        allWeaponArmors = new RadioButton[] {lightArmor, mediumArmor, heavyArmor, shield, simpleWeapons, martialWeapons, otherWeapons};
+
+    }
+
     // Checks the appropriate saving throw checkbox based on class
     private void setSavingThrows(String Saves) {
-        CheckBox saveStr = findViewById(R.id.checkbox_Str_Save);
-        CheckBox saveDex = findViewById(R.id.checkbox_Dex_Save);
-        CheckBox saveCon = findViewById(R.id.checkbox_Con_Save);
-        CheckBox saveInt = findViewById(R.id.checkbox_Int_Save);
-        CheckBox saveWis = findViewById(R.id.checkbox_Wis_Save);
-        CheckBox saveCha = findViewById(R.id.checkbox_Cha_Save);
-
-        CheckBox[] saves = new CheckBox[]{saveStr, saveDex, saveCon, saveInt, saveWis, saveCha};
         String[] classSaves = Saves.replace(", ", ",").split(",");
 
-        for (CheckBox save : saves) {
-            for (String classSave : classSaves) {
-                if (classSave.equals(save.getText().toString())) {
-                    save.setChecked(true);
+        if (getIntent().getStringArrayListExtra("CharacterInfo") == null) {
+            for (CheckBox save : saves) {
+                for (String classSave : classSaves) {
+                    if (classSave.equals(save.getText().toString())) {
+                        save.setChecked(true);
+                    }
+
                 }
 
             }
-
         }
 
     }
@@ -219,11 +278,6 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
     private void setArmorProficiencies(String classArmor, String raceArmor) {
         String[] armorSet1 = classArmor.replace(", ", ",").split(",");
         String[] armorSet2 = raceArmor.replace(", ", ",").split(",");
-
-        RadioButton lightArmor = findViewById(R.id.radio_Light_Armor);
-        RadioButton mediumArmor = findViewById(R.id.radio_Medium_Armor);
-        RadioButton heavyArmor = findViewById(R.id.radio_Heavy_Armor);
-        RadioButton shield = findViewById(R.id.radio_Shield);
 
         // Check class armor proficiencies
         if (!classArmor.equals("None")) {
@@ -274,10 +328,6 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
     private void setWeaponProficiencies(String classWeapons, String raceWeapons) {
         String[] weaponSet1 = classWeapons.replace("; ", ";").split(";");
         String[] weaponSet2 = raceWeapons.replace("; ", ";").split(";");
-
-        RadioButton simpleWeapons = findViewById(R.id.radio_Simple_Weapon);
-        RadioButton martialWeapons = findViewById(R.id.radio_Martial_Weapon);
-        RadioButton otherWeapons = findViewById(R.id.radio_Other_Weapon);
 
         // Check class weapon proficiencies
         for (String aWeaponSet1 : weaponSet1) {
@@ -341,8 +391,8 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
             textLanguage.append(backgroundLanguage);
         }
 
-        // Delete trailing comma
-        String text = textLanguage.getText().toString().replaceAll(", $", "");
+        // Delete trailing comma and escape apostrophe
+        String text = textLanguage.getText().toString().replaceAll(", $", "").replaceAll("'", "''");
         textLanguage.setText(text);
 
         allLanguages = text;
@@ -417,8 +467,8 @@ public class ExpandCharacter_Proficiencies extends AppCompatActivity {
         }
 
         else {
-            // Delete trailing comma
-            String text = textTool.getText().toString().replaceAll(", $", "");
+            // Delete trailing comma and escape apostrophe
+            String text = textTool.getText().toString().replaceAll(", $", "").replaceAll("'", "''");
             textTool.setText(text);
 
             allTools = text;

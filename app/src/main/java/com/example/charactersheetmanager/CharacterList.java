@@ -1,7 +1,9 @@
 package com.example.charactersheetmanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,28 +49,29 @@ public class CharacterList extends AppCompatActivity {
         final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(CharacterList.this);
         databaseAccess.open();
 
+        final List<String> playerID = databaseAccess.checkDatabase("id");
         final List<String> playerName =  databaseAccess.checkDatabase("name");
         final List<String> playerClass = databaseAccess.checkDatabase("class");
         final List<String> playerRace = databaseAccess.checkDatabase("race");
         final List<String> playerSubRace = databaseAccess.checkDatabase("subrace");
         final List<String> playerBackground = databaseAccess.checkDatabase("background");
-        List<String> payerLevel = databaseAccess.checkDatabase("level");
+        List<String> playerLevel = databaseAccess.checkDatabase("level");
 
         // Iterate through all saved characters
         for (int i = 0; i < playerName.size(); i++){
             if (playerSubRace.get(i).equals("None")) {
-                CharacterFragment characterFragment = new CharacterFragment(playerName.get(i),"level " + payerLevel.get(i), playerRace.get(i), playerClass.get(i), playerBackground.get(i));
+                CharacterFragment characterFragment = new CharacterFragment(playerName.get(i),"level " + playerLevel.get(i), playerRace.get(i), playerClass.get(i), playerBackground.get(i), playerID.get(i));
                 characterList.add(characterFragment);
             }
 
             else {
-                CharacterFragment characterFragment = new CharacterFragment(playerName.get(i),"level " + payerLevel.get(i), playerSubRace.get(i), playerClass.get(i), playerBackground.get(i));
+                CharacterFragment characterFragment = new CharacterFragment(playerName.get(i),"level " + playerLevel.get(i), playerSubRace.get(i), playerClass.get(i), playerBackground.get(i), playerID.get(i));
                 characterList.add(characterFragment);
             }
 
         }
 
-        final RecyclerView.Adapter adapter = new CharacterListAdapter(characterList, this);
+        final RecyclerView.Adapter adapter = new CharacterListAdapter(characterList);
         recyclerView.setAdapter(adapter);
 
         // Clicking a created character will allow the user to edit the character
@@ -77,7 +80,7 @@ public class CharacterList extends AppCompatActivity {
             public void onItemClick(final int position) {
 
                 Intent intent = new Intent(CharacterList.this, CreateCharacter.class);
-                intent.putStringArrayListExtra("CharacterInfo", (ArrayList<String>) databaseAccess.getCharacter(playerName.get(position), playerClass.get(position), playerRace.get(position), playerSubRace.get(position), playerBackground.get(position)));
+                intent.putStringArrayListExtra("CharacterInfo", (ArrayList<String>) databaseAccess.getCharacter(playerID.get(position)));
                 startActivity(intent);
             }
         });
@@ -85,16 +88,34 @@ public class CharacterList extends AppCompatActivity {
         // Holding down on a created character will allow the user to delete the selected character
         ((CharacterListAdapter) adapter).setOnItemLongClickedListener(new CharacterListAdapter.onItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(int position) {
-                // Remove character from arrayList, recyclerView, and notify removal
-                characterList.remove(position);
-                adapter.notifyItemRemoved(position);
+            public void onItemLongClick(final int position) {
 
-                // Removes character from database
-                databaseAccess.removeCharacter(playerName.get(position), playerClass.get(position), playerRace.get(position), playerSubRace.get(position), playerBackground.get(position));
-                Toast.makeText(CharacterList.this, "Character deleted!", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alert = new AlertDialog.Builder(CharacterList.this);
+                alert.setTitle("Delete character");
+                alert.setMessage("Are you sure you want to delete your character?");
 
-                return true;
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Remove character from arrayList, recyclerView, and notify removal
+                        characterList.remove(position);
+                        adapter.notifyItemRemoved(position);
+
+                        // Removes character from database
+                        databaseAccess.removeCharacter(playerID.get(position));
+                        Toast.makeText(CharacterList.this, "Character deleted!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+
             }
         });
 

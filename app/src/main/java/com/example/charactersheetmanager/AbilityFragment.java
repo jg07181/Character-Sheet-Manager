@@ -6,17 +6,17 @@ public class AbilityFragment {
     private String mDescription;
     private int mLevel;
 
-    public AbilityFragment(String title, String description, int level) {
+    AbilityFragment(String title, String description, int level) {
         mTitle = title;
         mDescription = description;
         mLevel = level;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return mTitle;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return mDescription;
     }
 
